@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
+# UPDATES FOR DYLAN
+# Installed React Native Elements Library
+#  > npm install @rneui/themed @rneui/base
