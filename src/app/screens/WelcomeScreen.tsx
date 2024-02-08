@@ -12,14 +12,14 @@ import { Link, Stack, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, Icon, ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "../themes";
-import { LoginScreen } from "./LoginScreen";
+// import LoginScreen from "./LoginScreen";
 
 export default function WelcomeScreen() {
   const themeStyle = useStyles();
 
   return (
     <ImageBackground
-      source={require("../../../assets/tempBackground.png")}
+      source={require("../../../assets/treeBackground.png")}
       style={styles.background}
       imageStyle={{ opacity: 0.4 }}
     >

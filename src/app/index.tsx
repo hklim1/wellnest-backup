@@ -4,7 +4,7 @@ import { Link } from "expo-router"; //Stack
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "./themes";
-import { Login, LoginScreen } from "./screens/LoginScreen";
+// import { Login, LoginScreen } from "./screens/LoginScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
