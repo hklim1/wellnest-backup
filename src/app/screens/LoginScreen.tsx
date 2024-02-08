@@ -103,7 +103,9 @@ export function LoginScreen() {
       </View>
       <View style={styles.buttonsContainer}>
         <Button>Sign Up</Button>
-        <Button type="outline">Login</Button>
+        <Link href='/home' asChild>
+             <Button type='outline'>Login</Button>
+        </Link>
       </View>
       <StatusBar style="auto" />
     </View>
