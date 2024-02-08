@@ -8,7 +8,8 @@ export const useStyles = makeStyles((props) => ({
 
 export const AppTheme = createTheme({
   lightColors: {
-    primary: "#f97171",
+    primary: "#0FA6B0",
+    // primary: "#f97171",
     // light coral: #f99192
     // oceanic teal: #66beb2
     // cool mint: #8ad6cc

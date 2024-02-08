@@ -38,3 +38,14 @@ yarn-error.*
 # UPDATES FOR DYLAN
 # Installed React Native Elements Library
 #  > npm install @rneui/themed @rneui/base
+#  > npm install react-native-safe-area-context
+
+# Installed Google Firebase
+#  > npx expo install firebase
+
+# Installed React Navigation
+#  > npm install @react-navigation/native
+#  > npx expo install react-native-screens
+
+# Google Firebase Authentication Process
+#  > npx expo customize metro.config.js
