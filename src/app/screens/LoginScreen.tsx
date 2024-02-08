@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   ActivityIndicator,
+  ImageBackground,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
@@ -18,7 +19,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-export function Login() {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,79 +59,96 @@ export function Login() {
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView behavior="padding">
-        <TextInput
-          value={email}
-          style={styles.input}
-          placeholder="Email"
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-        ></TextInput>
-        <TextInput
-          value={password}
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="Password"
-          autoCapitalize="none"
-          onChangeText={(text) => setPassword(text)}
-        ></TextInput>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <>
-            <Button title="Login" onPress={signIn}></Button>
-            <Button title="Create Account" onPress={signUp}></Button>
-          </>
-        )}
-      </KeyboardAvoidingView>
-    </View>
-  );
-}
-
-export function LoginScreen() {
-  const themeStyle = useStyles();
-  return (
-    <View style={styles.container}>
-      <View style={styles.basicContainer}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <Link
-          href="screens/WelcomeScreen"
-          style={{ margin: 20, color: "blue" }}
-        >
-          Settings
-        </Link>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <Button>Sign Up</Button>
-        <Button type="outline">Login</Button>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={AppTheme}>
+      <ImageBackground
+        source={require("../../../assets/treeBackground.png")}
+        style={styles.background}
+        imageStyle={{ opacity: 0.4 }}
+      >
+        <View style={styles.container}>
+          <Text style={styles.header}>Welcome back.</Text>
+          <View style={styles.inputContainer}>
+            <KeyboardAvoidingView behavior="padding">
+              <TextInput
+                value={email}
+                style={styles.input}
+                placeholder="Email"
+                autoCapitalize="none"
+                onChangeText={(text) => setEmail(text)}
+              ></TextInput>
+              <TextInput
+                value={password}
+                secureTextEntry={true}
+                style={styles.input}
+                placeholder="Password"
+                autoCapitalize="none"
+                onChangeText={(text) => setPassword(text)}
+              ></TextInput>
+              <Text style={styles.forgotPassword}>
+                {"                   Forgot password?"}
+              </Text>
+            </KeyboardAvoidingView>
+          </View>
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <>
+              <Button title="Login" onPress={signIn} style={styles.button} />
+            </>
+          )}
+        </View>
+      </ImageBackground>
+    </ThemeProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  button: {
+    width: 300,
+    paddingVertical: 3,
+    alignItems: "center",
+    backgroundColor: "#0FA6B0",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
-  basicContainer: {
-    flex: 1,
+  forgotPassword: {
+    color: "darkgrey",
+    fontSize: 16,
+    margin: 10,
   },
-  buttonsContainer: {
-    width: 300,
-    paddingVertical: 100,
-    // position: "absolute",
-    // top: 70,
+  header: {
+    fontSize: 27,
+    fontWeight: "bold",
+    position: "absolute",
+    top: 100,
   },
   input: {
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
+    width: 300,
+    height: 46,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "black",
+    backgroundColor: "white",
+    margin: 4,
   },
+  inputContainer: {
+    position: "absolute",
+    top: 150,
+  },
+  // viewy: {
+  //   borderWidth: 3,
+  //   borderColor: "black",
+  // },
 });
-
-export default LoginScreen;
