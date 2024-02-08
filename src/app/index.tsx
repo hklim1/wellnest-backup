@@ -7,22 +7,22 @@ import { AppTheme, useStyles } from "./themes";
 import { LoginScreen } from "./screens/LoginScreen";
 
 export default function App() {
-  return (
-    <SafeAreaProvider>
-      <ThemeProvider theme={AppTheme}>
-        {/* <View style={styles.container}>
+    return (
+        <SafeAreaProvider>
+            <ThemeProvider theme={AppTheme}>
+                {/* <View style={styles.container}>
         </View> */}
-        <LoginScreen />
-      </ThemeProvider>
-    </SafeAreaProvider>
-  );
+                <LoginScreen />
+            </ThemeProvider>
+        </SafeAreaProvider>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });
