@@ -1,21 +1,32 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Link, Stack } from "expo-router";
+import { Link } from "expo-router"; //Stack
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "./themes";
-import { LoginScreen } from "./screens/LoginScreen";
+import { Login, LoginScreen } from "./screens/LoginScreen";
+import WelcomeScreen from "./screens/WelcomeScreen";
+import { useEffect, useState } from "react";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../../FirebaseConfig";
 
 export default function App() {
-    return (
-        <SafeAreaProvider>
-            <ThemeProvider theme={AppTheme}>
-                {/* <View style={styles.container}>
-        </View> */}
-                <LoginScreen />
-            </ThemeProvider>
-        </SafeAreaProvider>
-    );
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      console.log("user", user);
+      setUser(user);
+    });
+  }, []);
+
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider theme={AppTheme}>
+        <WelcomeScreen />
+      </ThemeProvider>
+    </SafeAreaProvider>
+  );
 }
 
 const styles = StyleSheet.create({
