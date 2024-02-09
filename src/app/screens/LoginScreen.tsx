@@ -9,7 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "../themes";
@@ -37,6 +37,7 @@ export default function LoginScreen() {
       alert("Login failed: " + error.message);
     } finally {
       setLoading(false);
+      router.replace("screens/HomeScreen");
     }
   };
 
