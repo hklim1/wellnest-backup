@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UpcomingAppointments from "../../components/UpcomingAppointments";
-import UpcomingMedications from "../../components/UpcomingMedications";
+import UpcomingAppointments from "../../../components/UpcomingAppointments";
+import UpcomingMedications from "../../../components/UpcomingMedications";
 import { SpeedDial } from "@rneui/themed";
 import { Feather } from "@expo/vector-icons";
 
@@ -58,11 +58,11 @@ const Home = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 20,
+        // paddingTop: 20,
         flex: 1,
     },
     padding: {
-        padding: 16,
+        paddingHorizontal: 16,
     },
     popup: {
         backgroundColor: "white",

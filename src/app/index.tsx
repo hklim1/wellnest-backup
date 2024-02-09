@@ -5,28 +5,28 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "./themes";
 // import { Login, LoginScreen } from "./screens/LoginScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
+import WelcomeScreen from "./screens/(auth)/WelcomeScreen";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../../FirebaseConfig";
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (user) => {
-      console.log("user", user);
-      setUser(user);
-    });
-  }, []);
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (user) => {
+            console.log("user", user);
+            setUser(user);
+        });
+    }, []);
 
-  return (
-    <SafeAreaProvider>
-      <ThemeProvider theme={AppTheme}>
-        <WelcomeScreen />
-      </ThemeProvider>
-    </SafeAreaProvider>
-  );
+    return (
+        <SafeAreaProvider>
+            <ThemeProvider theme={AppTheme}>
+                <WelcomeScreen />
+            </ThemeProvider>
+        </SafeAreaProvider>
+    );
 }
 
 const styles = StyleSheet.create({
