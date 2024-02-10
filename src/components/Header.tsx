@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome, Feather } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 const Header = () => {
     return (
@@ -10,7 +11,9 @@ const Header = () => {
                 <Text style={styles.text}>Welcome Back, Maria!</Text>
             </View>
             <View style={styles.iconWrapper}>
-                <Feather name='calendar' size={24} />
+                <Link href='screens/Calendar'>
+                    <Feather name='calendar' size={24} />
+                </Link>
                 <Feather name='bell' size={24} />
                 <Feather name='settings' size={24} />
             </View>
@@ -26,6 +29,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        paddingTop: 16,
     },
     welcomeWrapper: {
         flexDirection: "row",

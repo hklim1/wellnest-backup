@@ -5,11 +5,12 @@ import { Feather } from "@expo/vector-icons";
 const TabLayout = () => {
     return (
         <Tabs
-            initialRouteName='screens/WelcomeScreen'
+            initialRouteName='screens/HomeScreen'
             screenOptions={{
                 tabBarInactiveTintColor: "grey",
                 tabBarActiveTintColor: "black",
                 tabBarActiveBackgroundColor: "#eeeeee",
+                // headerShown: false,
             }}>
             {/* using href null to hide that screen for tab nav */}
 
@@ -59,6 +60,8 @@ const TabLayout = () => {
                     },
                 }}
             />
+
+            <Tabs.Screen name='Calendar' options={{ href: null }} />
         </Tabs>
     );
 };

@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const Layout = () => {
-    return <Stack />;
+    return <Stack screenOptions={{ headerShown: false }} />;
 };
 
-// export default Layout;
+export default Layout;
