@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Calendar } from "react-native-calendars";
 
 const UserCalendar = () => {
     const [day, setDay] = useState<string>("");
     return (
-        <View>
+        <ScrollView>
             <View style={styles.wrapper}>
                 <Calendar
                     onDayPress={(day) => setDay(day.dateString)}
@@ -19,7 +19,7 @@ const UserCalendar = () => {
                 />
             </View>
             <Text style={styles.text}>Selected Date: {day}</Text>
-        </View>
+        </ScrollView>
     );
 };
 
