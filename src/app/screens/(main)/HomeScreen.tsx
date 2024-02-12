@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Stack } from "expo-router";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Stack, useRouter } from "expo-router";
 import Header from "../../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UpcomingAppointments from "../../../components/UpcomingAppointments";
@@ -10,6 +10,7 @@ import { Feather } from "@expo/vector-icons";
 
 const Home = () => {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
     return (
         <SafeAreaView style={styles.container}>
             <Stack.Screen options={{ headerShown: false }} />
@@ -47,10 +48,12 @@ const Home = () => {
                     <Text>Medication</Text>
                 </View>
 
-                <View style={styles.popup}>
+                <Pressable
+                    style={styles.popup}
+                    onPress={() => router.navigate("/screens/Appointments")}>
                     <Feather name='plus-circle' size={24} color='black' />
                     <Text>Appointment</Text>
-                </View>
+                </Pressable>
             </SpeedDial>
         </SafeAreaView>
     );
@@ -58,7 +61,6 @@ const Home = () => {
 
 const styles = StyleSheet.create({
     container: {
-        // paddingTop: 20,
         flex: 1,
     },
     padding: {
