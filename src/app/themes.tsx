@@ -22,7 +22,14 @@ export const AppTheme = createTheme({
     Button: {
       raised: false,
       size: "lg",
-      radius: 8,
+      radius: 10,
+      disabledStyle: {
+        backgroundColor: "#0FA6B0",
+        opacity: 0.3,
+      },
+      disabledTitleStyle: {
+        color: "white",
+      },
     },
     SpeedDial: {
       color: "blue",

@@ -1,49 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   ActivityIndicator,
   ImageBackground,
   KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { Link, Stack, router } from "expo-router";
+import { Link, Stack, router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, Icon, ThemeProvider } from "@rneui/themed";
+import { Button, Icon, ThemeProvider, useTheme } from "@rneui/themed";
 import { AppTheme, useStyles } from "../../themes";
 import { firebaseAuth } from "../../../../FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { SpeedDial } from "@rneui/base";
 
-export default function LoginScreen() {
-  const [email, setEmail] = useState("");
+type CreatePasswordScreenParams = {
+  email: string;
+};
+
+export default function CreatePasswordScreen() {
+  const params = useLocalSearchParams<CreatePasswordScreenParams>();
+
+  const [email, setEmail] = useState(params.email ?? "");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const auth = firebaseAuth;
 
-  const signIn = async () => {
-    setLoading(true);
-    try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      // alert("Incorrect email or password")
-    } catch (error: any) {
-      console.log(error);
-      alert("Login failed: " + error.message);
-    } finally {
-      setLoading(false);
-      router.replace("screens/HomeScreen");
+  const themeStyle = useStyles();
+  const { theme } = useTheme();
+  console.log("theme", themeStyle);
+
+  const isPasswordValid = () => {
+    var regularExpression =
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    if (password.length <= 8) {
+      return alert("Password must be at least 8 characters");
+    }
+    if (password !== confirmPassword) {
+      return alert("Passwords do not match");
+    }
+    if (!regularExpression.test(password)) {
+      return alert(
+        "Password must contain at least 1 special character and 1 number"
+      );
+    } else {
+      console.log("password === confirmpassword");
+      return true;
     }
   };
 
   const signUp = async () => {
     setLoading(true);
+
     try {
+      if (!isPasswordValid()) {
+        return;
+      }
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -56,6 +77,7 @@ export default function LoginScreen() {
       alert("Registration failed: " + error.message);
     } finally {
       setLoading(false);
+      router.replace("screens/HomeScreen");
     }
   };
 
@@ -76,7 +98,7 @@ export default function LoginScreen() {
             icon={<Icon name="chevron-left" color="#8c9292" size={30} />}
             // iconPosition="left"
           />
-          <Text style={styles.loginInfo}>Enter your login info</Text>
+          <Text style={styles.selectPw}>Select a strong password</Text>
         </View>
         <View style={styles.container}>
           <KeyboardAvoidingView behavior="padding">
@@ -95,6 +117,17 @@ export default function LoginScreen() {
               autoCapitalize="none"
               onChangeText={(text) => setPassword(text)}
             ></TextInput>
+            <TextInput
+              value={confirmPassword}
+              secureTextEntry={true}
+              style={styles.input}
+              placeholder="Re-enter password"
+              autoCapitalize="none"
+              onChangeText={(text) => setConfirmPassword(text)}
+            ></TextInput>
+            <Text style={styles.subtext}>
+              At least 8 characters, 1 number, and 1 special character
+            </Text>
             {loading ? (
               <ActivityIndicator size="large" color="#0FA6B0" />
             ) : (
@@ -107,83 +140,49 @@ export default function LoginScreen() {
                     fontWeight: "300",
                     fontSize: 16,
                   }}
-                  onPress={signIn}
+                  onPress={signUp}
                   style={{
                     width: 350,
                     // marginLeft: 3,
-                    marginTop: 4,
+                    marginTop: 30,
                   }}
                 ></Button>
               </>
             )}
-            <Text style={styles.subtext}>Forgot password?</Text>
           </KeyboardAvoidingView>
-          <View style={{ flexDirection: "row", marginVertical: 30 }}>
-            <View
-              style={{
-                backgroundColor: "lightgrey",
-                height: 1,
-                flex: 1,
-                alignSelf: "center",
-              }}
-            />
-            <Text
-              style={{
-                color: "black",
-                alignSelf: "center",
-                paddingHorizontal: 10,
-                fontSize: 14,
-                fontWeight: "300",
-              }}
-            >
-              or
-            </Text>
-            <View
-              style={{
-                backgroundColor: "lightgrey",
-                height: 1,
-                flex: 1,
-                alignSelf: "center",
-              }}
-            />
-          </View>
-          <Button
-            title="Continue with Google"
-            titleStyle={{ color: "black", fontWeight: "300", fontSize: 16 }}
-            icon={
-              <Icon
-                name="mail"
-                color="lightgrey"
-                size={20}
-                style={{ paddingRight: 15 }}
-              />
-            }
-            onPress={() => router.push("/screens/CreatePasswordScreen")}
-            buttonStyle={styles.googleButton}
-          ></Button>
         </View>
-        <Text style={styles.policies}>
-          By continuing, you agree to Wellnest's{" "}
-          <Link
-            style={{
-              color: "#0FA6B0",
-              textDecorationLine: "underline",
-            }}
-            href="screens/LoginScreen"
-          >
-            Terms & Conditions
-          </Link>{" "}
-          and{" "}
-          <Link
-            style={{
-              color: "#0FA6B0",
-              textDecorationLine: "underline",
-            }}
-            href="screens/LoginScreen"
-          >
-            Privacy Policy
-          </Link>
-        </Text>
+        {/* <KeyboardAvoidingView
+          behavior="padding"
+          keyboardVerticalOffset={1}
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignSelf: "stretch",
+            marginBottom: 16,
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <>
+              <Button
+                title="Continue"
+                titleStyle={{
+                  color: "white",
+                  fontWeight: "300",
+                  fontSize: 16,
+                }}
+                // onPress={signUp}
+                onPress={() => router.push("/screens/main/HomeScreen")}
+                style={{
+                  width: 350,
+                  // marginLeft: 3,
+                  marginTop: 10,
+                }}
+              ></Button>
+            </>
+          )}
+        </KeyboardAvoidingView> */}
       </ImageBackground>
     </ThemeProvider>
   );
@@ -209,15 +208,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 200,
   },
-  googleButton: {
-    width: 350,
-    marginLeft: 3,
-    marginTop: 4,
-    backgroundColor: "#f0f0f0",
-    color: "black",
-    borderColor: "lightgrey",
-    borderWidth: 1,
-  },
   input: {
     alignItems: "center",
     justifyContent: "center",
@@ -230,27 +220,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: 4,
   },
-  loginInfo: {
+  selectPw: {
     position: "absolute",
     top: 84,
     fontSize: 16,
     fontWeight: "400",
   },
-  policies: {
-    width: 250,
-    color: "grey",
-    textAlign: "center",
-    paddingHorizontal: 10,
-    fontSize: 12,
-    fontWeight: "300",
-    position: "absolute",
-    bottom: 50,
-  },
   subtext: {
     color: "grey",
-    fontSize: 15,
+    fontSize: 13,
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: 8,
   },
   topHalf: {
     position: "absolute",
