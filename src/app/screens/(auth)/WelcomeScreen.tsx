@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
     <ImageBackground
       source={require("../../../../assets/treeBackground.png")}
       style={styles.background}
-      imageStyle={{ opacity: 0.4 }}
+      imageStyle={{ opacity: 0.3 }}
     >
       <Stack.Screen options={{ headerShown: false }} />
 
