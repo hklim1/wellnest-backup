@@ -42,16 +42,17 @@ export default function CreatePasswordScreen() {
   const isPasswordValid = () => {
     var regularExpression =
       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    if (password.length <= 8) {
-      return alert("Password must be at least 8 characters");
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters");
+      return false;
     }
     if (password !== confirmPassword) {
-      return alert("Passwords do not match");
+      alert("Passwords do not match");
+      return false;
     }
     if (!regularExpression.test(password)) {
-      return alert(
-        "Password must contain at least 1 special character and 1 number"
-      );
+      alert("Password must contain at least 1 special character and 1 number");
+      return false;
     } else {
       console.log("password === confirmpassword");
       return true;
@@ -71,13 +72,13 @@ export default function CreatePasswordScreen() {
         password
       );
       console.log(response);
+      router.replace("screens/HomeScreen");
       // alert("Incorrect email or password")
     } catch (error: any) {
       console.log(error);
       alert("Registration failed: " + error.message);
     } finally {
       setLoading(false);
-      router.replace("screens/HomeScreen");
     }
   };
 

@@ -14,11 +14,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, Icon, ThemeProvider, useTheme } from "@rneui/themed";
 import { AppTheme, useStyles } from "../../themes";
 import { firebaseAuth } from "../../../../FirebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { SpeedDial } from "@rneui/base";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
@@ -54,17 +50,15 @@ export default function RegisterScreen() {
       <ImageBackground
         source={require("../../../../assets/treeBackground.png")}
         style={styles.background}
-        imageStyle={{ opacity: 0.4 }}
+        imageStyle={{ opacity: 0.3 }}
       >
         <Stack.Screen options={{ headerShown: false }} />
-        <View style={styles.buttonz}>
+        <View style={styles.topHalf}>
           <Button
             buttonStyle={styles.backButton}
-            // disabledStyle={{ backgroundColor: "red " }}
             onPress={() => router.back()}
             title={"  "}
             icon={<Icon name="chevron-left" color="#8c9292" size={30} />}
-            // iconPosition="left"
           />
           <Text style={styles.createAcc}>Create an account</Text>
         </View>
@@ -77,14 +71,6 @@ export default function RegisterScreen() {
               autoCapitalize="none"
               onChangeText={(text) => setEmail(text)}
             ></TextInput>
-            {/* <TextInput
-            value={password}
-            secureTextEntry={true}
-            style={styles.input}
-            placeholder="Password"
-            autoCapitalize="none"
-            onChangeText={(text) => setPassword(text)}
-          ></TextInput> */}
             {loading ? (
               <ActivityIndicator size="large" color="#0FA6B0" />
             ) : (
@@ -195,21 +181,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#d3e7e9",
   },
-  buttonz: {
-    position: "absolute",
-    top: 80,
-    left: 20,
-    width: 300,
-  },
-  basicContainer: {
-    flex: 1,
-  },
-  buttonsContainer: {
-    width: 300,
-    paddingVertical: 100,
-    // position: "absolute",
-    // top: 70,
-  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -253,5 +224,11 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     position: "absolute",
     bottom: 50,
+  },
+  topHalf: {
+    position: "absolute",
+    top: 80,
+    left: 20,
+    width: 300,
   },
 });
