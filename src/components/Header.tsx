@@ -11,9 +11,6 @@ const Header = () => {
                 <Text style={styles.text}>Welcome Back, Maria!</Text>
             </View>
             <View style={styles.iconWrapper}>
-                <Link href='screens/Calendar'>
-                    <Feather name='calendar' size={24} />
-                </Link>
                 <Feather name='bell' size={24} />
                 <Feather name='settings' size={24} />
             </View>

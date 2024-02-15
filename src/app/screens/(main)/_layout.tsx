@@ -9,10 +9,15 @@ const TabLayout = () => {
             screenOptions={{
                 tabBarInactiveTintColor: "grey",
                 tabBarActiveTintColor: "black",
-                tabBarActiveBackgroundColor: "#eeeeee",
+                tabBarActiveBackgroundColor: "orange",
+                tabBarStyle: {
+                    height: 60,
+                },
+
                 // headerShown: false,
             }}>
             {/* using href null to hide that screen for tab nav */}
+            {/* the focused attr can be used to change the style and layout for when the tab screen is active */}
 
             <Tabs.Screen
                 name='HouseHold'
@@ -48,20 +53,36 @@ const TabLayout = () => {
             />
 
             <Tabs.Screen
-                name='HomeScreen'
+                name='Calendar'
                 options={{
-                    title: "Me",
+                    title: "Calendar",
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Text>
-                                <Feather name='smile' color='black' size={30} />
+                                <Feather
+                                    name='calendar'
+                                    color='black'
+                                    size={24}
+                                />
                             </Text>
                         );
                     },
                 }}
             />
 
-            <Tabs.Screen name='Calendar' options={{ href: null }} />
+            <Tabs.Screen
+                name='HomeScreen'
+                options={{
+                    title: "Me",
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <Text>
+                                <Feather name='smile' color='black' size={24} />
+                            </Text>
+                        );
+                    },
+                }}
+            />
         </Tabs>
     );
 };
