@@ -51,9 +51,9 @@ interface DateStripProps {
 // might have to refactor to become a table!!
 // think the formatting would be better that way instead of flex
 const DateStrip = ({ active, date, title }: DateStripProps) => {
-    const bgColor = active ? "lightgray" : "";
-    const ballSize = active ? 30 : 20;
-    const ballColor = active ? "gray" : "lightgray";
+    const bgColor = active ? "#f4f4f4" : "";
+    const ballSize = active ? 16 : 11;
+    const ballColor = active ? "gray" : "#eeeeee";
     return (
         <View style={[styles.strip, { backgroundColor: bgColor }]}>
             <View style={styles.date}>

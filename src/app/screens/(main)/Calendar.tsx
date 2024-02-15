@@ -13,17 +13,6 @@ const History = () => {
                 options={{
                     title: "Calendar",
                     headerTitleAlign: "center",
-                    headerLeft: () => (
-                        <Feather
-                            onPress={() =>
-                                router.navigate("/screens/HomeScreen")
-                            }
-                            style={{ paddingLeft: 20 }}
-                            name='chevron-left'
-                            size={30}
-                            color='black'
-                        />
-                    ),
                 }}
             />
 
