@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { Button } from "@rneui/base";
+import { Button } from "@rneui/themed";
 
 interface Medicine {
     meds: {
@@ -19,12 +19,12 @@ const medications = [
 ];
 const UpcomingMedications = () => {
     return (
-        <View style={styles.container}>
+        <View>
             <FlatList
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     gap: 10,
-                    paddingLeft: 16,
+                    paddingHorizontal: 16,
                 }}
                 horizontal
                 data={medications}
@@ -88,28 +88,25 @@ const styles = StyleSheet.create({
     topWrapper: {
         flexDirection: "row",
         justifyContent: "space-between",
-        width: "auto",
     },
     text: {
         fontSize: 16,
     },
-    container: {
-        marginTop: 32,
-    },
     buttonWrapper: {
         flexDirection: "row",
         gap: 10,
+        marginTop: 10,
     },
     button: {
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderRadius: 10,
-        backgroundColor: "#b3b3b3",
         color: "white",
     },
     cardDetails: {
         color: "grey",
-        marginVertical: 3,
+        fontSize: 14,
+        fontWeight: "normal",
     },
 });
 

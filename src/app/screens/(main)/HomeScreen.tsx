@@ -6,10 +6,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UpcomingAppointments from "../../../components/UpcomingAppointments";
 import UpcomingMedications from "../../../components/UpcomingMedications";
 import { SpeedDial } from "@rneui/themed";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { WeekCalendar, CalendarProvider } from "react-native-calendars";
 
 const Home = () => {
     const [open, setOpen] = useState(false);
+    const [day, setDay] = useState(new Date());
     const router = useRouter();
     return (
         <SafeAreaView style={styles.container}>
@@ -17,14 +19,32 @@ const Home = () => {
             <View style={styles.padding}>
                 <Header />
 
-                <View
-                    style={{
-                        height: 100,
-                        backgroundColor: "white",
-                        marginTop: 32,
-                        borderRadius: 10,
-                    }}
-                />
+                <View style={styles.weekCalendar}>
+                    <Text style={styles.calendarText}>Today</Text>
+                    <CalendarProvider date={day.toDateString()}>
+                        <WeekCalendar
+                            markingType='dot'
+                            markedDates={{
+                                [day.toDateString()]: {
+                                    color: "red",
+                                    activeOpacity: 0.5,
+                                    selected: true,
+                                    marked: true,
+                                    selectedColor: "red",
+                                },
+                            }}
+                            showSixWeeks={false}
+                            allowShadow={false}
+                            firstDay={0}
+                            pastScrollRange={
+                                (new Date().getFullYear() - 1900) * 12
+                            }
+                            futureScrollRange={
+                                (2099 - new Date().getFullYear()) * 12
+                            }
+                        />
+                    </CalendarProvider>
+                </View>
 
                 <UpcomingAppointments />
             </View>
@@ -32,27 +52,45 @@ const Home = () => {
             <UpcomingMedications />
 
             <SpeedDial
-                color='grey'
                 isOpen={open}
-                icon={{ name: "add", color: "#fff" }}
-                openIcon={{ name: "close", color: "#fff" }}
+                icon={{ name: "add", color: "#0FA6B0" }}
+                openIcon={{ name: "close", color: "#0FA6B0" }}
                 onOpen={() => setOpen(!open)}
                 onClose={() => setOpen(!open)}>
                 <View style={styles.popup}>
-                    <Feather name='plus-circle' size={24} color='black' />
-                    <Text>Symptom</Text>
+                    <Text>Notes</Text>
+                    <Feather name='file-text' size={20} color='#0FA6B0' />
+                </View>
+                <View style={styles.popup}>
+                    <Text>Vaccine</Text>
+                    <Feather name='x' size={20} color='#0FA6B0' />
                 </View>
 
                 <View style={styles.popup}>
-                    <Feather name='plus-circle' size={24} color='black' />
+                    <Text>Symptom</Text>
+                    <Feather name='frown' size={20} color='#0FA6B0' />
+                </View>
+
+                <View style={styles.popup}>
                     <Text>Medication</Text>
+                    <MaterialCommunityIcons
+                        name='pill'
+                        size={20}
+                        color='#0FA6B0'
+                    />
                 </View>
 
                 <Pressable
                     style={styles.popup}
                     onPress={() => router.navigate("/screens/Appointments")}>
-                    <Feather name='plus-circle' size={24} color='black' />
-                    <Text>Appointment</Text>
+                    <Text
+                        style={{
+                            fontSize: 14,
+                            color: "#5A5E5E",
+                        }}>
+                        Appointment
+                    </Text>
+                    <Feather name='calendar' size={20} color='#0FA6B0' />
                 </Pressable>
             </SpeedDial>
         </SafeAreaView>
@@ -62,19 +100,34 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#F5F7F7",
+        gap: 15,
+    },
+    weekCalendar: {
+        height: 120,
+        padding: 8,
+        borderRadius: 10,
+        backgroundColor: "white",
+        marginTop: 20,
+    },
+    calendarText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "center",
     },
     padding: {
         paddingHorizontal: 16,
     },
     popup: {
         backgroundColor: "white",
-        padding: 16,
+        paddingVertical: 10,
+        paddingHorizontal: 14,
         borderRadius: 40,
         flexDirection: "row",
         alignItems: "center",
         gap: 8,
         marginRight: 16,
-        marginVertical: 4,
+        marginBottom: 16,
     },
 });
 

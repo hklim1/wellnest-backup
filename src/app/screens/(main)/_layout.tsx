@@ -1,5 +1,5 @@
 import { Tabs, Stack } from "expo-router";
-import { Text } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const TabLayout = () => {
@@ -7,25 +7,23 @@ const TabLayout = () => {
         <Tabs
             initialRouteName='screens/HomeScreen'
             screenOptions={{
-                tabBarInactiveTintColor: "grey",
-                tabBarActiveTintColor: "black",
-                tabBarActiveBackgroundColor: "orange",
+                tabBarInactiveTintColor: "white",
+                tabBarActiveTintColor: "white",
                 tabBarStyle: {
-                    height: 60,
+                    padding: 5,
+                    height: 67,
                 },
-
-                // headerShown: false,
             }}>
-            {/* using href null to hide that screen for tab nav */}
-            {/* the focused attr can be used to change the style and layout for when the tab screen is active */}
-
             <Tabs.Screen
                 name='HouseHold'
                 options={{
-                    title: "HouseHold",
-
+                    title: "",
                     tabBarIcon: ({ focused }) => (
-                        <Feather name='home' size={24} color='black' />
+                        <TabBarIcon
+                            iconName='home'
+                            focused={focused}
+                            title='Nest'
+                        />
                     ),
                 }}
             />
@@ -33,10 +31,13 @@ const TabLayout = () => {
             <Tabs.Screen
                 name='History'
                 options={{
-                    title: "History",
-
+                    title: "",
                     tabBarIcon: ({ focused }) => (
-                        <Feather name='clock' size={24} color='black' />
+                        <TabBarIcon
+                            iconName='clock'
+                            focused={focused}
+                            title='History'
+                        />
                     ),
                 }}
             />
@@ -44,10 +45,14 @@ const TabLayout = () => {
             <Tabs.Screen
                 name='Track'
                 options={{
-                    title: "Track",
-
+                    title: "",
+                    href: null,
                     tabBarIcon: ({ focused }) => (
-                        <Feather name='fast-forward' size={24} color='black' />
+                        <TabBarIcon
+                            iconName='play'
+                            focused={focused}
+                            title='asp'
+                        />
                     ),
                 }}
             />
@@ -55,36 +60,49 @@ const TabLayout = () => {
             <Tabs.Screen
                 name='Calendar'
                 options={{
-                    title: "Calendar",
-                    tabBarIcon: ({ focused }) => {
-                        return (
-                            <Text>
-                                <Feather
-                                    name='calendar'
-                                    color='black'
-                                    size={24}
-                                />
-                            </Text>
-                        );
-                    },
+                    title: "",
+                    tabBarIcon: ({ focused }) => (
+                        <TabBarIcon
+                            iconName='calendar'
+                            title='Calendar'
+                            focused={focused}
+                        />
+                    ),
                 }}
             />
 
             <Tabs.Screen
                 name='HomeScreen'
                 options={{
-                    title: "Me",
-                    tabBarIcon: ({ focused }) => {
-                        return (
-                            <Text>
-                                <Feather name='smile' color='black' size={24} />
-                            </Text>
-                        );
-                    },
+                    title: "",
+                    tabBarIcon: ({ focused }) => (
+                        <TabBarIcon
+                            iconName='smile'
+                            title='Me'
+                            focused={focused}
+                        />
+                    ),
                 }}
             />
         </Tabs>
     );
 };
 
+type TabProps = { focused: boolean; iconName: FeatherIcon; title: string };
+const TabBarIcon = ({ focused, iconName, title }: TabProps) => {
+    const color = focused ? "black" : "#979B9B";
+    return (
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Feather name={iconName} size={24} color={color} />
+            <Text style={[styles.titleText, { color: color }]}>{title}</Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    titleText: {
+        fontSize: 12,
+        textAlign: "center",
+    },
+});
 export default TabLayout;

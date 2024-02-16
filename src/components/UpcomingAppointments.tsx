@@ -22,11 +22,16 @@ const appointments = [
 const UpcomingAppointments = () => {
     return (
         <View style={styles.container}>
-            <View style={styles.wrapper}>
-                <Text style={styles.text}>Upcoming Appointments</Text>
-                <Ionicons name='ellipsis-vertical' size={24} color='black' />
-            </View>
             <View>
+                <Text style={styles.text}>Upcoming Appointments</Text>
+                <Ionicons
+                    name='ellipsis-vertical'
+                    size={24}
+                    color='black'
+                    style={{ position: "absolute", right: 0 }}
+                />
+            </View>
+            <View style={styles.dateStripContainer}>
                 {appointments.map((app, idx) => {
                     return (
                         <DateStrip
@@ -37,6 +42,17 @@ const UpcomingAppointments = () => {
                         />
                     );
                 })}
+                <View
+                    style={{
+                        height: 60,
+                        top: 10,
+                        zIndex: -1,
+                        width: 1,
+                        backgroundColor: "#F5F7F7",
+                        position: "absolute",
+                        left: 26,
+                    }}
+                />
             </View>
         </View>
     );
@@ -52,15 +68,22 @@ interface DateStripProps {
 // think the formatting would be better that way instead of flex
 const DateStrip = ({ active, date, title }: DateStripProps) => {
     const bgColor = active ? "#f4f4f4" : "";
-    const ballSize = active ? 16 : 11;
-    const ballColor = active ? "gray" : "#eeeeee";
+    const ballSize = 16;
+    const ballColor = active ? "#0FA6B0" : "#eeeeee";
     return (
         <View style={[styles.strip, { backgroundColor: bgColor }]}>
             <View style={styles.date}>
-                <FontAwesome name='circle' size={ballSize} color={ballColor} />
-                <Text>{date}</Text>
+                <FontAwesome
+                    name='circle'
+                    size={ballSize}
+                    color={ballColor}
+                    style={{ zIndex: 50 }}
+                />
+                <Text style={{ textAlign: "left", width: "auto" }}>
+                    {title}
+                </Text>
             </View>
-            <Text style={{ textAlign: "left", width: "auto" }}>{title}</Text>
+            <Text>{date}</Text>
         </View>
     );
 };
@@ -74,12 +97,8 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
-    },
-    wrapper: {
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 20,
+        textAlign: "center",
+        fontWeight: "bold",
     },
     strip: {
         borderRadius: 100,
@@ -93,6 +112,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 10,
         alignItems: "center",
+    },
+    dateStripContainer: {
+        marginTop: 16,
     },
 });
 
