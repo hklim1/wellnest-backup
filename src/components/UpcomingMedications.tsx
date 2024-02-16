@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 10,
         color: "white",
-        width: 95,
     },
     cardDetails: {
         color: "grey",
