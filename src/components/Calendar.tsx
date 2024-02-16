@@ -8,12 +8,15 @@ const UserCalendar = () => {
         <ScrollView>
             <View style={styles.wrapper}>
                 <Calendar
+                    markingType='dot'
                     onDayPress={(day) => setDay(day.dateString)}
                     markedDates={{
                         [day]: {
                             color: "red",
                             activeOpacity: 0.5,
                             selected: true,
+                            marked: true,
+                            selectedColor: "red",
                         },
                     }}
                 />

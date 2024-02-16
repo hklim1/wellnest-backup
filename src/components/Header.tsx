@@ -2,16 +2,26 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { Avatar, Badge } from "@rneui/themed";
 
 const Header = () => {
     return (
         <View style={styles.headerWrapper}>
             <View style={styles.welcomeWrapper}>
-                <FontAwesome name='circle' size={24} color='black' />
+                <Avatar
+                    rounded
+                    source={{
+                        uri: "https://randomuser.me/api/portraits/women/10.jpg",
+                    }}
+                    size={24}
+                />
                 <Text style={styles.text}>Welcome Back, Maria!</Text>
             </View>
             <View style={styles.iconWrapper}>
-                <Feather name='bell' size={24} />
+                <View>
+                    <Feather name='bell' size={24} />
+                    <Badge status='error' containerStyle={styles.badge} />
+                </View>
                 <Feather name='settings' size={24} />
             </View>
         </View>
@@ -36,6 +46,11 @@ const styles = StyleSheet.create({
     iconWrapper: {
         flexDirection: "row",
         gap: 16,
+    },
+    badge: {
+        position: "absolute",
+        right: 0,
+        top: 0,
     },
 });
 
