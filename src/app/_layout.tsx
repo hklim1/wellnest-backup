@@ -1,9 +1,13 @@
-import { Stack, Tabs } from "expo-router";
-import { Text } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Stack } from "expo-router";
+import { ThemeProvider } from "@rneui/themed";
+import { AppTheme } from "./themes";
 
 const Layout = () => {
-    return <Stack screenOptions={{ headerShown: false }} />;
+    return (
+        <ThemeProvider theme={AppTheme}>
+            <Stack screenOptions={{ headerShown: false }} />
+        </ThemeProvider>
+    );
 };
 
 export default Layout;

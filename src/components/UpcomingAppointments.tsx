@@ -31,7 +31,7 @@ const UpcomingAppointments = () => {
                     style={{ position: "absolute", right: 0 }}
                 />
             </View>
-            <View>
+            <View style={styles.dateStripContainer}>
                 {appointments.map((app, idx) => {
                     return (
                         <DateStrip
@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 10,
         alignItems: "center",
+    },
+    dateStripContainer: {
+        marginTop: 16,
     },
 });
 

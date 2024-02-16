@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { Button } from "@rneui/base";
+import { Button } from "@rneui/themed";
 
 interface Medicine {
     meds: {
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderRadius: 10,
-        backgroundColor: "#b3b3b3",
         color: "white",
         width: 95,
     },

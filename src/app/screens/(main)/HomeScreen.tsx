@@ -6,13 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UpcomingAppointments from "../../../components/UpcomingAppointments";
 import UpcomingMedications from "../../../components/UpcomingMedications";
 import { SpeedDial } from "@rneui/themed";
-import { Feather } from "@expo/vector-icons";
-import {
-    WeekCalendar,
-    CalendarProvider,
-    Agenda,
-    AgendaList,
-} from "react-native-calendars";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { WeekCalendar, CalendarProvider } from "react-native-calendars";
 
 const Home = () => {
     const [open, setOpen] = useState(false);
@@ -57,27 +52,45 @@ const Home = () => {
             <UpcomingMedications />
 
             <SpeedDial
-                color='grey'
                 isOpen={open}
-                icon={{ name: "add", color: "#fff" }}
-                openIcon={{ name: "close", color: "#fff" }}
+                icon={{ name: "add", color: "#0FA6B0" }}
+                openIcon={{ name: "close", color: "#0FA6B0" }}
                 onOpen={() => setOpen(!open)}
                 onClose={() => setOpen(!open)}>
                 <View style={styles.popup}>
-                    <Feather name='plus-circle' size={24} color='black' />
-                    <Text>Symptom</Text>
+                    <Text>Notes</Text>
+                    <Feather name='file-text' size={20} color='#0FA6B0' />
+                </View>
+                <View style={styles.popup}>
+                    <Text>Vaccine</Text>
+                    <Feather name='x' size={20} color='#0FA6B0' />
                 </View>
 
                 <View style={styles.popup}>
-                    <Feather name='plus-circle' size={24} color='black' />
+                    <Text>Symptom</Text>
+                    <Feather name='frown' size={20} color='#0FA6B0' />
+                </View>
+
+                <View style={styles.popup}>
                     <Text>Medication</Text>
+                    <MaterialCommunityIcons
+                        name='pill'
+                        size={20}
+                        color='#0FA6B0'
+                    />
                 </View>
 
                 <Pressable
                     style={styles.popup}
                     onPress={() => router.navigate("/screens/Appointments")}>
-                    <Feather name='plus-circle' size={24} color='black' />
-                    <Text>Appointment</Text>
+                    <Text
+                        style={{
+                            fontSize: 14,
+                            color: "#5A5E5E",
+                        }}>
+                        Appointment
+                    </Text>
+                    <Feather name='calendar' size={20} color='#0FA6B0' />
                 </Pressable>
             </SpeedDial>
         </SafeAreaView>
@@ -107,13 +120,14 @@ const styles = StyleSheet.create({
     },
     popup: {
         backgroundColor: "white",
-        padding: 16,
+        paddingVertical: 10,
+        paddingHorizontal: 14,
         borderRadius: 40,
         flexDirection: "row",
         alignItems: "center",
         gap: 8,
         marginRight: 16,
-        marginVertical: 4,
+        marginBottom: 16,
     },
 });
 
