@@ -30,6 +30,7 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
@@ -49,3 +50,25 @@ yarn-error.*
 
 # Google Firebase Authentication Process
 #  > npx expo customize metro.config.js
+
+# npx expo install expo-auth-session expo-crypto expo-web-browser
+# npx expo install expo-dev-client
+
+# FOR LOCAL STORAGE
+# npx expo install @react-native-async-storage/async-storage
+
+# EAS for Android fingerprint credentials
+# npm install -g eas-cli
+
+# For iOS/Android bundlers using oAuth & Google Cloud
+# npx expo prebuild
+# npx expo prebuild --platform ios
+
+# Getting SHA1 Fingerprint Credential for Android use
+#  > eas credentials -p android
+#  > production
+#  > Keystore
+#  > Set up a new Keystore
+#  > Hit enter on "Assign a name to your build credentials"
+#  > Generate a new Android Keystore: YES
+

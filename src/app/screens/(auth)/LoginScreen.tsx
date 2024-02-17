@@ -17,9 +17,20 @@ import { firebaseAuth } from "../../../../FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithCredential,
 } from "firebase/auth";
+// import * as Google from "expo-auth-session/providers/google";
+// import * as AuthSession from "expo-auth-session";
+import { useIdTokenAuthRequest as useGoogleIdTokenAuthRequest } from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen() {
+  const [userInfo, setUserInfo] = React.useState();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -158,7 +169,12 @@ export default function LoginScreen() {
                 style={{ paddingRight: 15 }}
               />
             }
-            onPress={() => router.push("/screens/CreatePasswordScreen")}
+            // onPress={() => router.push("/screens/CreatePasswordScreen")}
+            onPress={async () => {
+              promptAsyncGoogle();
+              // const { authentication, type } = await Google.signInAsync();
+              // console.log("SIGNE IN?", authentication, type);
+            }}
             buttonStyle={styles.googleButton}
           ></Button>
         </View>

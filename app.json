@@ -1,31 +1,46 @@
 {
-    "expo": {
-        "name": "parallel-plus",
-        "slug": "parallel-plus",
-        "scheme": "parallel",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/splashing.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#ffffff"
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            }
-        },
-        "web": {
-            "favicon": "./assets/favicon.png",
-            "bundler": "metro"
-        },
-        "plugins": ["expo-router"]
+  "expo": {
+    "name": "parallel-plus",
+    "slug": "parallel-plus",
+    "currentFullName": "@hklim1/parallel-plus",
+    "originalFullName": "@hklim1/parallel-plus",
+    "scheme": "com.colab.wellnest",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splashing.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.colab.wellnest"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "9597c579-d384-4e2e-b217-94be952d04ec"
+      }
     }
+  }
 }
