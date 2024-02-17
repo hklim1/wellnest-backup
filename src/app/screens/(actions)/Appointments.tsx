@@ -9,6 +9,7 @@ import { useState } from "react";
 import DatePicker from "react-native-modern-datepicker";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import members from "../../../lib/members";
 
 const options = [
     { title: "None", value: 0 },
@@ -19,7 +20,7 @@ const options = [
 ];
 const Appointments = () => {
     const [openCalender, setOpenCalender] = useState(false);
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(new Date().toDateString());
     const [time, setTime] = useState("");
     const [openTime, setOpenTime] = useState(false);
     const [openReminder, setOpenReminder] = useState(false);
@@ -28,6 +29,7 @@ const Appointments = () => {
     const [location, setLocation] = useState("");
     const [number, setNumber] = useState("");
     const [note, setNotes] = useState("");
+    const [activeMember, setActiveMember] = useState(0);
 
     const router = useRouter();
 
@@ -41,6 +43,7 @@ const Appointments = () => {
                 location: location,
                 number: number,
                 notes: note,
+                member: activeMember,
             };
             const serializedData = JSON.stringify(data);
             await AsyncStorage.setItem("appointment", serializedData);
@@ -69,18 +72,15 @@ const Appointments = () => {
                     headerLeft: () => (
                         <Text
                             onPress={() => router.back()}
-                            style={{ fontSize: 16, color: "#FF4B86" }}>
+                            style={styles.navText}>
                             Cancel
                         </Text>
                     ),
                     headerRight: () => (
-                        <Text
-                            onPress={() => {}}
-                            style={{ color: "#4B86ED", fontSize: 16 }}>
+                        <Text onPress={storeData} style={styles.navText}>
                             Save
                         </Text>
                     ),
-                    headerStyle: { backgroundColor: "" },
                     headerShadowVisible: false,
                 }}
             />
@@ -91,18 +91,29 @@ const Appointments = () => {
                     placeholder='Add Title'
                     value={title}
                     onChangeText={(text) => setTitle(text)}
+                    maxLength={20}
                 />
                 <TextInputIcon
                     name='calendar'
                     placeholder='Date'
-                    value={date}
+                    value={new Date(date).toUTCString().slice(0, 16)}
                     onPressIn={() => setOpenCalender(true)}
-                    onBlur={() => setOpenCalender(false)}
                 />
                 {openCalender && (
                     <Calendar
+                        minDate={new Date().toDateString()}
+                        markedDates={{
+                            [date]: {
+                                color: "#0FA6B0",
+                                activeOpacity: 0.5,
+                                selected: true,
+                                marked: true,
+                                selectedColor: "#0FA6B0",
+                            },
+                        }}
                         onDayPress={(date) => {
-                            setDate(new Date(date.timestamp).toDateString());
+                            console.log(new Date(date.dateString));
+                            setDate(date.dateString);
                             setOpenCalender(false);
                         }}
                     />
@@ -112,7 +123,6 @@ const Appointments = () => {
                     placeholder='Time'
                     value={time}
                     onPressIn={() => setOpenTime(true)}
-                    onBlur={() => setOpenTime(false)}
                 />
                 {openTime && (
                     <DatePicker
@@ -174,6 +184,7 @@ const Appointments = () => {
                     placeholder='Phone Number'
                     value={number}
                     onChangeText={(text) => setNumber(text)}
+                    inputMode='tel'
                 />
             </ComponentDivider>
 
@@ -181,14 +192,21 @@ const Appointments = () => {
                 <TextInputIcon
                     name='menu'
                     multiline={true}
-                    style={{ maxHeight: 200 }}
                     placeholder='Add a note'
                     value={note}
                     onChangeText={(text) => setNotes(text)}
+                    maxLength={100}
                 />
             </ComponentDivider>
 
-            <Members />
+            <View>
+                <Text style={styles.text}>This is for: </Text>
+                <Members
+                    activeMember={activeMember}
+                    setActiveMember={setActiveMember}
+                    members={members}
+                />
+            </View>
 
             <Button onPress={storeData}>Save</Button>
         </View>
@@ -205,5 +223,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 16,
     },
+    text: {
+        fontSize: 16,
+    },
+    navText: { fontSize: 16, color: "#4B86ED" },
 });
 export default Appointments;
