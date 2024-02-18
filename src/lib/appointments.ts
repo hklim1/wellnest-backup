@@ -7,6 +7,9 @@ const data = [
         phone: "(347)-647-5779",
         _id: 1,
         time: "9:30 AM",
+        formattedDate: "2024-02-02",
+        notes: "Dental checkup",
+        reminder: "30 minutes before",
     },
     {
         memberId: 0,
@@ -16,6 +19,9 @@ const data = [
         phone: "(215)-123-4567",
         _id: 2,
         time: "10:00 AM",
+        formattedDate: "2024-02-03",
+        notes: "General health check",
+        reminder: "1 hour before",
     },
     {
         memberId: 2,
@@ -25,6 +31,9 @@ const data = [
         phone: "(610)-789-0123",
         _id: 3,
         time: "11:15 AM",
+        formattedDate: "2024-02-04",
+        notes: "Physical therapy session",
+        reminder: "15 minutes before",
     },
     {
         memberId: 1,
@@ -34,6 +43,9 @@ const data = [
         phone: "(267)-543-2109",
         _id: 4,
         time: "2:45 PM",
+        formattedDate: "2024-02-05",
+        notes: "Eye examination",
+        reminder: "45 minutes before",
     },
     {
         memberId: 2,
@@ -43,6 +55,9 @@ const data = [
         phone: "(484)-876-5432",
         _id: 5,
         time: "4:30 PM",
+        formattedDate: "2024-02-06",
+        notes: "Orthopedic consultation",
+        reminder: "20 minutes before",
     },
     {
         memberId: 3,
@@ -52,6 +67,9 @@ const data = [
         phone: "(609)-234-5678",
         _id: 6,
         time: "1:00 PM",
+        formattedDate: "2024-02-07",
+        notes: "Psychiatric evaluation",
+        reminder: "1 hour before",
     },
     {
         memberId: 0,
@@ -61,6 +79,9 @@ const data = [
         phone: "(215)-987-6543",
         _id: 7,
         time: "3:20 PM",
+        formattedDate: "2024-02-08",
+        notes: "Skin check",
+        reminder: "30 minutes before",
     },
     {
         memberId: 1,
@@ -70,6 +91,9 @@ const data = [
         phone: "(267)-876-5432",
         _id: 8,
         time: "12:45 PM",
+        formattedDate: "2024-02-09",
+        notes: "Cardiac consultation",
+        reminder: "15 minutes before",
     },
     {
         memberId: 2,
@@ -79,6 +103,9 @@ const data = [
         phone: "(610)-123-4567",
         _id: 9,
         time: "9:00 AM",
+        formattedDate: "2024-02-10",
+        notes: "Women's health check",
+        reminder: "40 minutes before",
     },
     {
         memberId: 3,
@@ -88,6 +115,9 @@ const data = [
         phone: "(484)-234-5678",
         _id: 10,
         time: "11:30 AM",
+        formattedDate: "2024-02-10",
+        notes: "Podiatry appointment",
+        reminder: "25 minutes before",
     },
 ];
 
@@ -101,6 +131,9 @@ type AppointmentType = {
     phone: string;
     _id: number;
     time: string;
+    formattedDate: string;
+    notes: string;
+    reminder: string;
 };
 
 export { AppointmentType };

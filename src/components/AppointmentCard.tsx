@@ -4,16 +4,19 @@ import members, { MemberType } from "../lib/members";
 import { AppointmentType } from "../lib/appointments";
 import { Feather } from "@expo/vector-icons";
 
+import { useRouter } from "expo-router";
 type Props = {
     data: AppointmentType;
 };
 
 const AppointmentCard = ({ data }: Props) => {
     const image = members[data.memberId].image;
+    const router = useRouter();
     return (
         <Pressable
             onPress={() => {
                 console.log(data._id);
+                router.navigate("/screens/appointment/" + data._id);
             }}
             style={styles.container}>
             <View>
