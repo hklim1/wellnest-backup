@@ -20,6 +20,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { SpeedDial } from "@rneui/base";
+import { storeUser } from "../../utils/firebaseUtils";
 
 type CreatePasswordScreenParams = {
   email: string;
@@ -71,7 +72,9 @@ export default function CreatePasswordScreen() {
         email,
         password
       );
-      console.log(response);
+      // console.log(response);
+      // console.log(response["user"]["uid"]);
+      storeUser(response["user"]["uid"], email);
       router.replace("screens/HomeScreen");
       // alert("Incorrect email or password")
     } catch (error: any) {

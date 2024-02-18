@@ -13,31 +13,40 @@ import { Link, Stack, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, Icon, ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "../../themes";
-import { firebaseAuth } from "../../../../FirebaseConfig";
+import { firebaseApp, firebaseAuth } from "../../../../FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { firebase } from "@react-native-firebase/auth";
+import { useUserId } from "../../utils/globalStorage";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("test@test.com");
   const [password, setPassword] = useState("123123");
   const [loading, setLoading] = useState(false);
+  const { userId, setUserId } = useUserId();
 
   const auth = firebaseAuth;
+
+  if (userId !== null) {
+    console.log("userId", userId);
+    router.replace("screens/HomeScreen");
+  }
 
   const signIn = async () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      // alert("Incorrect email or password")
+      // const prettyResp = JSON.stringify(response, null, "\t");
+      const newUserId = response["user"]["uid"];
+      setUserId(newUserId);
+      // router.replace("screens/HomeScreen");
     } catch (error: any) {
       console.log(error);
       alert("Login failed: " + error.message);
     } finally {
       setLoading(false);
-      router.replace("screens/HomeScreen");
     }
   };
 

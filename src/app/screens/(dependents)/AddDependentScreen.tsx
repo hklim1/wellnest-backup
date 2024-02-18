@@ -7,8 +7,7 @@ import { KeyboardAvoidingView, StyleSheet, TextInput } from "react-native";
 import { Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import firestore from "@react-native-firebase/firestore";
-
-const dependenciesCollection = firestore().collection("Dependencies");
+import { createDependent } from "../../utils/firebaseUtils";
 
 export default function AddDependentScreen() {
   const [dFirstName, setFirstName] = useState("Patrick");
@@ -19,20 +18,20 @@ export default function AddDependentScreen() {
 
   console.log(firebaseDB);
 
-  const sendToFirestore = async () => {
-    try {
-      const resp = await addDoc(collection(firebaseDB, "Dependents"), {
-        firstName: dFirstName,
-        dateOfBirth: dDateOfBirth,
-        gender: dGender,
-        notes: dNotes,
-        icon: dIcon,
-      });
-      console.log("resp:", JSON.stringify(resp));
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //   const sendToFirestore = async () => {
+  //     try {
+  //       const resp = await addDoc(collection(firebaseDB, "Dependents"), {
+  //         firstName: dFirstName,
+  //         dateOfBirth: dDateOfBirth,
+  //         gender: dGender,
+  //         notes: dNotes,
+  //         icon: dIcon,
+  //       });
+  //       console.log("resp:", JSON.stringify(resp));
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
 
   return (
     <SafeAreaView>
@@ -72,7 +71,14 @@ export default function AddDependentScreen() {
           autoCapitalize="none"
           onChangeText={(newText) => setIcon(newText)}
         ></TextInput>
-        <Button onPress={sendToFirestore}>Submit</Button>
+        <Button
+          onPress={() => {
+            createDependent(dFirstName, dDateOfBirth, dGender, dNotes, dIcon);
+            // addFullPermissions()
+          }}
+        >
+          Submit
+        </Button>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
