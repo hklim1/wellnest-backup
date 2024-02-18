@@ -11,7 +11,7 @@ const HouseHold = () => {
         Dependents
       </Button>
       <Button onPress={() => router.replace("/screens/AddDependentScreen")}>
-        HELP
+        Add Member Screen
       </Button>
     </View>
   );

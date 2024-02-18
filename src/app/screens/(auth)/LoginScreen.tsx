@@ -20,8 +20,8 @@ import {
 } from "firebase/auth";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("123123");
   const [loading, setLoading] = useState(false);
 
   const auth = firebaseAuth;
