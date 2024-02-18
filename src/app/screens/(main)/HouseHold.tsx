@@ -10,6 +10,9 @@ const HouseHold = () => {
       <Button onPress={() => router.replace("/screens/FamilyMembersScreen")}>
         Dependents
       </Button>
+      <Button onPress={() => router.replace("/screens/AddDependentScreen")}>
+        HELP
+      </Button>
     </View>
   );
 };
