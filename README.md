@@ -1,4 +1,4 @@
-## Setup For the Project
+a## Setup For the Project
 
 This is just a simple setup for the project booted with typeScript and I have added expo router.
 It's a file based router like Next JS App Router that derives the router from file structure.

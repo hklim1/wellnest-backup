@@ -2,38 +2,37 @@ import React, { useState } from "react";
 // import { UserAuth } from '../context/AuthContext';
 // import { useNavigate } from 'react-router-dom';
 import { firebaseDB } from "../../../../FirebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { KeyboardAvoidingView, StyleSheet, TextInput } from "react-native";
 import { Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
+import firestore from "@react-native-firebase/firestore";
+
+const dependenciesCollection = firestore().collection("Dependencies");
 
 export default function AddDependentScreen() {
-  const [dFirstName, setFirstName] = useState("");
-  const [dDateOfBirth, setDateOfBirth] = useState("");
-  const [dGender, setGender] = useState("");
-  const [dNotes, setNotes] = useState("");
-  const [dIcon, setIcon] = useState("");
+  const [dFirstName, setFirstName] = useState("Patrick");
+  const [dDateOfBirth, setDateOfBirth] = useState("11/07/1996");
+  const [dGender, setGender] = useState("male");
+  const [dNotes, setNotes] = useState("helpless");
+  const [dIcon, setIcon] = useState("chess-pawn");
+
+  console.log(firebaseDB);
 
   const sendToFirestore = async () => {
-    await addDoc(collection(firebaseDB, "Dependencies"), {
-      firstName: dFirstName,
-      dateOfBirth: dDateOfBirth,
-      gender: dGender,
-      notes: dNotes,
-      icon: dIcon,
-    });
+    try {
+      const resp = await addDoc(collection(firebaseDB, "Dependents"), {
+        firstName: dFirstName,
+        dateOfBirth: dDateOfBirth,
+        gender: dGender,
+        notes: dNotes,
+        icon: dIcon,
+      });
+      console.log("resp:", JSON.stringify(resp));
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  // const sendToFirestore = async() => {
-  //     await firebaseDB.collection("Dependencies")
-  //       .add({
-  //       firstName: dFirstName,
-  //       dateOfBirth: dDateOfBirth,
-  //       gender: dGender,
-  //       notes: dNotes,
-  //       icon: dIcon,
-  //       });
-  // }
 
   return (
     <SafeAreaView>
@@ -73,41 +72,13 @@ export default function AddDependentScreen() {
           autoCapitalize="none"
           onChangeText={(newText) => setIcon(newText)}
         ></TextInput>
-        <Button onPress={sendToFirestore}>HELP</Button>
+        <Button onPress={sendToFirestore}>Submit</Button>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  backButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    backgroundColor: "#d3e7e9",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
-    position: "absolute",
-    top: 200,
-  },
-  googleButton: {
-    width: 350,
-    marginLeft: 3,
-    marginTop: 4,
-    backgroundColor: "#f0f0f0",
-    color: "black",
-    borderColor: "lightgrey",
-    borderWidth: 1,
-  },
   input: {
     alignItems: "center",
     justifyContent: "center",
