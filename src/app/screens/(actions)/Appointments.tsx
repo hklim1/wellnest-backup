@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Alert, ToastAndroid } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import ComponentDivider from "../../../components/ComponentDivider";
 import TextInputIcon from "../../../components/TextInputIcon";
@@ -47,7 +47,6 @@ const Appointments = () => {
             };
             const serializedData = JSON.stringify(data);
             await AsyncStorage.setItem("appointment", serializedData);
-            ToastAndroid.show("Appointment has been Saved", 10000);
             router.back();
         } catch (err) {
             Alert.alert("Failed to save data");

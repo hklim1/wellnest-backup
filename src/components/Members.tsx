@@ -14,16 +14,26 @@ type MemberProps = {
     activeMember: number;
     setActiveMember: React.Dispatch<React.SetStateAction<number>>;
     members: MemberType[];
+    numCols?: number;
 };
 
-const Members = ({ activeMember, setActiveMember, members }: MemberProps) => {
+const Members = ({
+    activeMember,
+    setActiveMember,
+    members,
+    numCols,
+}: MemberProps) => {
+    const key = numCols ? `numCols_${numCols}` : "default";
     return (
         <View>
             <FlatList
+                key={key}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: 8, paddingTop: 10 }}
-                horizontal
+                contentContainerStyle={{ gap: 8, paddingTop: 10, columnGap: 8 }}
+                horizontal={!numCols}
+                numColumns={numCols}
                 data={members}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <MemberProfile
                         member={item}
@@ -82,6 +92,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "center",
         color: "#b7b7b7",
+        fontWeight: "bold",
     },
     activeMember: {
         borderWidth: 3,
