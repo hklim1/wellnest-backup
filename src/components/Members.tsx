@@ -4,62 +4,41 @@ import {
     Text,
     FlatList,
     Image,
-    ImageProps,
     StyleSheet,
     Pressable,
+    ImageProps,
 } from "react-native";
-import { useState } from "react";
-import female from "../../assets/female.png";
-import male from "../../assets/male.png";
+import { MemberType } from "../lib/members";
 
-type MemberType = {
-    id: number;
-    name: string;
-    image: female | male;
-    email: string;
+type MemberProps = {
+    activeMember: number;
+    setActiveMember: React.Dispatch<React.SetStateAction<number>>;
+    members: MemberType[];
+    numCols?: number;
 };
 
-const members = [
-    {
-        id: 1,
-        name: "Me",
-        image: female,
-        email: "maria@gmail.com",
-    },
-    {
-        id: 2,
-        name: "Dave",
-        image: male,
-        email: "dave@gmail.com",
-    },
-    {
-        id: 3,
-        name: "Mia",
-        image: female,
-        email: "mia@gmail.com",
-    },
-    {
-        id: 4,
-        name: "Susie",
-        image: female,
-        email: "susie@gmail.com",
-    },
-];
-
-const Members = () => {
-    const [active, setActive] = useState(0);
+const Members = ({
+    activeMember,
+    setActiveMember,
+    members,
+    numCols,
+}: MemberProps) => {
+    const key = numCols ? `numCols_${numCols}` : "default";
     return (
         <View>
-            <Text>Appointment is for:</Text>
             <FlatList
-                contentContainerStyle={{ gap: 8, paddingTop: 10 }}
-                horizontal
+                key={key}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ gap: 8, paddingTop: 10, columnGap: 8 }}
+                horizontal={!numCols}
+                numColumns={numCols}
                 data={members}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <MemberProfile
                         member={item}
-                        activeId={active}
-                        setActive={setActive}
+                        activeId={activeMember}
+                        setActive={setActiveMember}
                     />
                 )}
             />
@@ -82,12 +61,21 @@ const MemberProfile = ({ member, activeId, setActive }: Props) => {
             onPress={() => {
                 handlePress(member.id);
             }}>
-            <Image
-                source={member.image}
-                width={55}
-                height={55}
-                style={activeId == member.id && [styles.activeMember]}
-            />
+            <View
+                style={[
+                    styles.imageWrapper,
+                    activeId == member.id && [
+                        styles.activeMember,
+                        { borderColor: member.color },
+                    ],
+                    ,
+                ]}>
+                <Image
+                    source={member.image as ImageProps}
+                    width={55}
+                    height={55}
+                />
+            </View>
             <Text
                 style={[
                     styles.text,
@@ -104,15 +92,22 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "center",
         color: "#b7b7b7",
+        fontWeight: "normal",
     },
     activeMember: {
-        padding: 3,
         borderWidth: 3,
-        borderColor: "#777777",
-        borderRadius: 100,
+
+        padding: 5,
     },
     activeText: {
         color: "black",
+    },
+    imageWrapper: {
+        backgroundColor: "white",
+        borderRadius: 100,
+        padding: 5,
+        borderWidth: 3,
+        borderColor: "transparent",
     },
 });
 
