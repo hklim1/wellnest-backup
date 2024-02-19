@@ -58,21 +58,21 @@ const Home = () => {
                 onOpen={() => setOpen(!open)}
                 onClose={() => setOpen(!open)}>
                 <View style={styles.popup}>
-                    <Text>Notes</Text>
+                    <Text style={styles.popupText}>Notes</Text>
                     <Feather name='file-text' size={20} color='#0FA6B0' />
                 </View>
                 <View style={styles.popup}>
-                    <Text>Vaccine</Text>
+                    <Text style={styles.popupText}>Vaccine</Text>
                     <Feather name='x' size={20} color='#0FA6B0' />
                 </View>
 
                 <View style={styles.popup}>
-                    <Text>Symptom</Text>
+                    <Text style={styles.popupText}>Symptom</Text>
                     <Feather name='frown' size={20} color='#0FA6B0' />
                 </View>
 
                 <View style={styles.popup}>
-                    <Text>Medication</Text>
+                    <Text style={styles.popupText}>Medication</Text>
                     <MaterialCommunityIcons
                         name='pill'
                         size={20}
@@ -83,13 +83,7 @@ const Home = () => {
                 <Pressable
                     style={styles.popup}
                     onPress={() => router.navigate("/screens/Appointments")}>
-                    <Text
-                        style={{
-                            fontSize: 14,
-                            color: "#5A5E5E",
-                        }}>
-                        Appointment
-                    </Text>
+                    <Text style={styles.popupText}>Appointment</Text>
                     <Feather name='calendar' size={20} color='#0FA6B0' />
                 </Pressable>
             </SpeedDial>
@@ -112,7 +106,7 @@ const styles = StyleSheet.create({
     },
     calendarText: {
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: "Inter500",
         textAlign: "center",
     },
     padding: {
@@ -128,6 +122,11 @@ const styles = StyleSheet.create({
         gap: 8,
         marginRight: 16,
         marginBottom: 16,
+    },
+    popupText: {
+        fontSize: 14,
+        color: "#5A5E5E",
+        fontFamily: "Inter500",
     },
 });
 

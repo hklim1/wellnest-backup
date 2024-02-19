@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import Members from "../../../components/Members";
 import members from "../../../lib/members";
 import family from "../../../../assets/People.png";
-import { ListItem } from "@rneui/themed";
+import { Badge, ListItem } from "@rneui/themed";
 import data from "../../../lib/appointments";
 import AppointmentCard from "../../../components/AppointmentCard";
 import { MarkedDates } from "react-native-calendars/src/types";
@@ -20,7 +20,7 @@ const last = {
     color: "#0FA6B0",
 };
 
-const History = () => {
+const CalendarScreen = () => {
     const path = usePathname();
     const router = useRouter();
     const [member, setMember] = useState(1);
@@ -71,11 +71,27 @@ const History = () => {
             <Stack.Screen
                 options={{
                     title: "Calendar",
+                    headerTitleStyle: {
+                        fontFamily: "Inter600",
+                        fontSize: 16,
+                    },
                     headerTitleAlign: "center",
                     headerShadowVisible: false,
                     headerStyle: {
                         backgroundColor: "transparent",
                     },
+                    headerRight: () => (
+                        <View style={styles.iconWrapper}>
+                            <View>
+                                <Feather name='bell' size={24} />
+                                <Badge
+                                    status='error'
+                                    containerStyle={styles.badge}
+                                />
+                            </View>
+                            <Feather name='settings' size={24} />
+                        </View>
+                    ),
                 }}
             />
 
@@ -132,5 +148,15 @@ const styles = StyleSheet.create({
     memberWrapper: {
         marginVertical: 16,
     },
+    iconWrapper: {
+        flexDirection: "row",
+        gap: 16,
+        paddingRight: 20,
+    },
+    badge: {
+        position: "absolute",
+        right: 0,
+        top: 0,
+    },
 });
-export default History;
+export default CalendarScreen;

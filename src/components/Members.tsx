@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "center",
         color: "#b7b7b7",
-        fontWeight: "normal",
+        fontFamily: "Inter600",
     },
     activeMember: {
         borderWidth: 3,
