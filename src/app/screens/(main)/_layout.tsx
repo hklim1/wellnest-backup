@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 12,
         textAlign: "center",
+        fontFamily: "Inter500",
     },
 });
 export default TabLayout;

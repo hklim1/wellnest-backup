@@ -4,6 +4,7 @@ import { Feather } from "@expo/vector-icons";
 
 type Props = {
     name: FeatherIcon;
+    color?: string;
 } & TextInputProps;
 
 const TextInputIcon = ({ name, ...inputProps }: Props) => {

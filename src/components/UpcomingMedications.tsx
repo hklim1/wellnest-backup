@@ -55,8 +55,14 @@ const MedicationCard = ({ meds }: Medicine) => {
                             {meds.amount} • {meds.weight} • {meds.time}
                         </Text>
                         <View style={styles.buttonWrapper}>
-                            <Button buttonStyle={styles.button}>Skipped</Button>
-                            <Button buttonStyle={styles.button}>Taken</Button>
+                            <Button
+                                titleStyle={styles.buttonText}
+                                buttonStyle={styles.button}
+                                title='Skipped'></Button>
+                            <Button
+                                buttonStyle={styles.button}
+                                titleStyle={styles.buttonText}
+                                title='Taken'></Button>
                         </View>
                     </View>
                 </View>
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
         width: 300,
     },
     cardIconWrapper: {
-        backgroundColor: "lightgray",
+        backgroundColor: "#EEF1F1",
         width: 50,
         height: 50,
         justifyContent: "center",
@@ -91,6 +97,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
+        fontFamily: "Inter400",
     },
     buttonWrapper: {
         flexDirection: "row",
@@ -102,11 +109,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 10,
         color: "white",
+        fontFamily: "Inter100",
+    },
+    buttonText: {
+        fontFamily: "Inter500",
     },
     cardDetails: {
-        color: "grey",
+        color: "#979B9B",
         fontSize: 14,
-        fontWeight: "normal",
+        fontFamily: "Inter400",
     },
 });
 

@@ -31,6 +31,7 @@ const Header = () => {
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
+        fontFamily: "Inter600",
     },
     headerWrapper: {
         flexDirection: "row",
