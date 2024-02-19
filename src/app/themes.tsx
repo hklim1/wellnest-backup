@@ -18,6 +18,7 @@ export const AppTheme = createTheme({
     darkColors: {
         primary: "blue",
     },
+
     components: {
         Button: {
             raised: false,
@@ -27,6 +28,7 @@ export const AppTheme = createTheme({
                 backgroundColor: "#0FA6B0",
                 opacity: 0.3,
             },
+
             disabledTitleStyle: {
                 color: "white",
             },

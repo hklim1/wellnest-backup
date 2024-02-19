@@ -31,29 +31,32 @@ const Header = () => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-  },
-  headerWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 16,
-  },
-  welcomeWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  iconWrapper: {
-    flexDirection: "row",
-    gap: 16,
-  },
-  badge: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-  },
+SettingsScreen
+    text: {
+        fontSize: 16,
+        fontFamily: "Inter600",
+    },
+    headerWrapper: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingTop: 16,
+    },
+    welcomeWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
+    },
+    iconWrapper: {
+        flexDirection: "row",
+        gap: 16,
+    },
+    badge: {
+        position: "absolute",
+        right: 0,
+        top: 0,
+    },
+main
 });
 
 export default Header;

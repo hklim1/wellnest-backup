@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View, SafeAreaView } from "react-native";
+import { Text, View, SafeAreaView, Image, TextInput } from "react-native";
 import { useLocalSearchParams, Stack } from "expo-router";
 import data from "../../../../lib/appointments";
 import TextInputIcon from "../../../../components/TextInputIcon";
 import ComponentDivider from "../../../../components/ComponentDivider";
+import members from "../../../../lib/members";
 
 const AppointmentDetails = () => {
     const { id } = useLocalSearchParams();
@@ -15,12 +16,18 @@ const AppointmentDetails = () => {
             <Stack.Screen
                 options={{
                     headerRight: () => (
-                        <Text style={{ color: "grey" }}>Edit</Text>
+                        <Text style={{ color: "grey", fontFamily: "Inter400" }}>
+                            Edit
+                        </Text>
                     ),
                     title: "Appointment Details",
                     headerTitleAlign: "center",
                     headerShadowVisible: false,
                     headerShown: true,
+                    headerTitleStyle: {
+                        fontFamily: "Inter600",
+                        fontSize: 16,
+                    },
                     headerStyle: {
                         backgroundColor: "transparent",
                     },
@@ -28,35 +35,57 @@ const AppointmentDetails = () => {
             />
 
             <ComponentDivider>
-                <TextInputIcon
-                    name='user'
-                    placeholder={info.title}
-                    editable={false}
-                />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        paddingHorizontal: 8,
+                        gap: 8,
+                    }}>
+                    <Image
+                        source={members[info.memberId].image}
+                        style={{ width: 24 }}
+                        resizeMode='contain'
+                    />
+
+                    <TextInput
+                        defaultValue={info.title}
+                        editable={false}
+                        style={{
+                            fontSize: 18,
+                            fontFamily: "Inter500",
+                            color: "black",
+                        }}
+                    />
+                </View>
                 <TextInputIcon
                     name='clock'
-                    placeholder={info.date + " " + info.time}
+                    defaultValue={info.date + " " + info.time}
                     editable={false}
+                    color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='bell'
-                    placeholder={info.reminder}
+                    defaultValue={info.reminder}
                     editable={false}
+                    color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='map-pin'
-                    placeholder={info.location}
+                    defaultValue={info.location}
                     editable={false}
+                    color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='phone'
-                    placeholder={info.phone}
+                    defaultValue={info.phone}
                     editable={false}
+                    color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='menu'
-                    placeholder={info.notes}
+                    defaultValue={info.notes}
                     editable={false}
+                    color='#1A1D1D'
                 />
             </ComponentDivider>
         </SafeAreaView>

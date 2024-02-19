@@ -20,12 +20,16 @@ const AppointmentCard = ({ data }: Props) => {
             }}
             style={styles.container}>
             <View>
-                <Image source={image} width={22} />
+                <Image
+                    source={image}
+                    style={{ width: 30 }}
+                    resizeMode='contain'
+                />
             </View>
             <View style={styles.details}>
                 <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{data.title}</Text>
-                    <Feather name='chevron-right' size={24} color='#5A5E5E' />
+                    <Feather name='chevron-right' size={24} color='#979B9B' />
                 </View>
 
                 <View>
@@ -53,20 +57,21 @@ const styles = StyleSheet.create({
     titleWrapper: {
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingTop: 10,
+        paddingTop: 5,
         alignItems: "center",
         marginBottom: 16,
     },
     title: {
         fontSize: 16,
-        fontWeight: "bold",
-        color: "#5A5E5E",
+        fontFamily: "Inter600",
+        color: "#1A1D1D",
     },
     details: {
         flex: 1,
     },
     detailsText: {
         fontSize: 16,
-        color: "#5A5E5E",
+        color: "#1A1D1D",
+        fontFamily: "Inter400",
     },
 });

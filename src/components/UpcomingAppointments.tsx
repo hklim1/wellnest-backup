@@ -64,8 +64,6 @@ interface DateStripProps {
     title: string;
 }
 
-// might have to refactor to become a table!!
-// think the formatting would be better that way instead of flex
 const DateStrip = ({ active, date, title }: DateStripProps) => {
     const bgColor = active ? "#f4f4f4" : "";
     const ballSize = 16;
@@ -79,11 +77,9 @@ const DateStrip = ({ active, date, title }: DateStripProps) => {
                     color={ballColor}
                     style={{ zIndex: 50 }}
                 />
-                <Text style={{ textAlign: "left", width: "auto" }}>
-                    {title}
-                </Text>
+                <Text style={styles.stripText}>{title}</Text>
             </View>
-            <Text>{date}</Text>
+            <Text style={styles.stripText}>{date}</Text>
         </View>
     );
 };
@@ -98,7 +94,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         textAlign: "center",
-        fontWeight: "bold",
+        fontFamily: "Inter500",
     },
     strip: {
         borderRadius: 100,
@@ -107,6 +103,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 5,
         paddingHorizontal: 20,
+    },
+    stripText: {
+        fontFamily: "Inter400",
+        fontSize: 14,
+        color: "#1A1D1D",
     },
     date: {
         flexDirection: "row",
