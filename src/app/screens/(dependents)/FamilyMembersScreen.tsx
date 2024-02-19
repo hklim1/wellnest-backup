@@ -19,7 +19,24 @@ export default function FamilyMembersScreen() {
   return (
     <ThemeProvider theme={AppTheme}>
       <View style={styles.background}>
-        <StackScreenComponent title={"Manage Members"} />
+        <Stack.Screen
+          options={{
+            headerBackTitle: "Cancel",
+            headerShown: true,
+            title: "Settings",
+            headerTitleStyle: { fontSize: 16, fontWeight: "500" },
+            headerTitleAlign: "center",
+            headerLeft: () => (
+              <Button
+                type="clear"
+                onPress={() => router.push("/screens/HouseHold")}
+                title={"  "}
+                icon={<Icon name="chevron-left" color="black" size={30} />}
+              />
+            ),
+            headerShadowVisible: false,
+          }}
+        />
         <View style={styles.accountMembersContainer}>
           <Text style={styles.accountMembersTitle}>ACCOUNT MEMBERS</Text>
           <>
