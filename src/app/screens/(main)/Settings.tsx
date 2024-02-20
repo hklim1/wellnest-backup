@@ -36,7 +36,7 @@ const Settings = () => {
             headerLeft: () => (
               <Button
                 type="clear"
-                onPress={() => router.push("/screens/HouseHold")}
+                onPress={() => router.back()}
                 title={"  "}
                 icon={<Icon name="chevron-left" color="black" size={30} />}
               />
