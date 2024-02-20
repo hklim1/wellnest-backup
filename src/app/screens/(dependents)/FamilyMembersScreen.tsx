@@ -21,12 +21,30 @@ import MemberRow from "../../../components/MemberRow";
 import ComponentDivider from "../../../components/ComponentDivider";
 
 export default function FamilyMembersScreen() {
+
     const deps = members.slice(1);
     const router = useRouter();
     const accoumtMembers = [];
     return (
         <View style={styles.background}>
-            <StackScreenComponent title={"Manage Members"} />
+            <Stack.Screen
+          options={{
+            headerBackTitle: "Cancel",
+            headerShown: true,
+            title: "Settings",
+            headerTitleStyle: { fontSize: 16, fontWeight: "500" },
+            headerTitleAlign: "center",
+            headerLeft: () => (
+              <Button
+                type="clear"
+                onPress={() => router.push("/screens/HouseHold")}
+                title={"  "}
+                icon={<Icon name="chevron-left" color="black" size={30} />}
+              />
+            ),
+            headerShadowVisible: false,
+          }}
+        />
             <View>
                 <Text style={styles.accountMembersTitle}>
                     DEPENDENT MEMBERS
@@ -105,6 +123,7 @@ export default function FamilyMembersScreen() {
                     </ListItem>
                 </ComponentDivider>
             </View>
+
         </View>
     );
 }

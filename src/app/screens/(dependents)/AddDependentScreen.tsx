@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { firebaseDB } from "../../../../FirebaseConfig";
+
 import DatePicker from "react-native-modern-datepicker";
 import {
     StyleSheet,
@@ -22,6 +23,7 @@ import Toast from "react-native-root-toast";
 import { Dialog } from "@rneui/themed";
 import { Dropdown } from "react-native-element-dropdown";
 
+        
 export default function AddDependentScreen() {
     const allIcons = [
         UserImages.Dog,
@@ -267,4 +269,5 @@ const styles = StyleSheet.create({
         backgroundColor: "#D3D3D3",
         margin: "auto",
     },
+
 });
