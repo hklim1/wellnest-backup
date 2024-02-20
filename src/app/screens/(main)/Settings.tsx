@@ -1,4 +1,11 @@
-import { View, Text, Pressable, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { Button } from "@rneui/themed";
 import { Stack, Link, useRouter, router } from "expo-router";
 import { Avatar, Icon, ListItem } from "@rneui/themed";
@@ -6,17 +13,25 @@ import { ThemeProvider } from "@react-navigation/native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 // import { Frog } from "../../../lib/userIcons";
 import * as Pics from "../../../lib/userIcons";
+import { UserIcon } from "../../../components/UserIcons";
 
 const Settings = () => {
   return (
-    <SafeAreaView>
-      <View style={styles.background}>
+    <SafeAreaView style={{ backgroundColor: "black", flex: 1 }}>
+      <ScrollView style={styles.background}>
         <Stack.Screen
           options={{
             headerBackTitle: "Cancel",
             headerShown: true,
             title: "Settings",
-            headerTitleStyle: { fontSize: 16, fontWeight: "500" },
+            headerTitleStyle: {
+              fontSize: 16,
+              fontWeight: "500",
+              fontFamily: "Inter600",
+            },
+            headerStyle: {
+              backgroundColor: "#eff4f4",
+            },
             headerTitleAlign: "center",
             headerLeft: () => (
               <Button
@@ -35,15 +50,14 @@ const Settings = () => {
             <>
               <ListItem
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  borderRadius: 10,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
-                <Feather name="anchor" size={20} color="black" />
+                <UserIcon name="smallBearCircle" />
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ paddingLeft: 3, margin: 0 }}>
+                  <ListItem.Title style={{ paddingLeft: 0, margin: 0 }}>
                     Maria
                   </ListItem.Title>
                   <ListItem.Subtitle style={styles.listSubtitles}>
@@ -64,7 +78,7 @@ const Settings = () => {
                   containerStyle={{
                     borderTopEndRadius: 10,
                     borderTopStartRadius: 10,
-                    paddingHorizontal: 0,
+                    paddingHorizontal: 15,
                     paddingVertical: 11,
                   }}
                 >
@@ -72,7 +86,13 @@ const Settings = () => {
                   <ListItem.Content
                     style={{ height: 20, padding: 0, margin: 0 }}
                   >
-                    <ListItem.Title style={{ paddingLeft: 3, margin: 0 }}>
+                    <ListItem.Title
+                      style={{
+                        margin: 0,
+                        fontFamily: "Inter400",
+                        fontSize: 15,
+                      }}
+                    >
                       Manage Members
                     </ListItem.Title>
                   </ListItem.Content>
@@ -84,13 +104,17 @@ const Settings = () => {
                 <ListItem
                   bottomDivider
                   containerStyle={{
-                    paddingHorizontal: 0,
+                    paddingHorizontal: 15,
                     paddingVertical: 11,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
                   }}
                 >
                   <Feather name="plus-circle" size={20} color="black" />
                   <ListItem.Content>
-                    <ListItem.Title>Add Members</ListItem.Title>
+                    <ListItem.Title style={styles.listTitles}>
+                      Add Members
+                    </ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               </Pressable>
@@ -104,12 +128,12 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Language
                   </ListItem.Title>
                   <ListItem.Subtitle style={styles.listSubtitles}>
@@ -120,14 +144,12 @@ const Settings = () => {
               <ListItem
                 bottomDivider
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Country/Region
                   </ListItem.Title>
                   <ListItem.Subtitle style={styles.listSubtitles}>
@@ -139,14 +161,14 @@ const Settings = () => {
               <ListItem
                 // bottomDivider
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  borderBottomEndRadius: 10,
+                  borderBottomStartRadius: 10,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     App Appearance
                   </ListItem.Title>
                   <ListItem.Subtitle style={styles.listSubtitles}>
@@ -164,12 +186,12 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Help Center
                   </ListItem.Title>
                 </ListItem.Content>
@@ -177,14 +199,14 @@ const Settings = () => {
               <ListItem
                 // bottomDivider
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  borderBottomEndRadius: 10,
+                  borderBottomStartRadius: 10,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Customer Support
                   </ListItem.Title>
                 </ListItem.Content>
@@ -199,88 +221,103 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Terms and Conditions
                   </ListItem.Title>
-                  <ListItem.Subtitle style={styles.listSubtitles}>
-                    {"English "} <Feather name="chevron-right" size={18} />
-                  </ListItem.Subtitle>
                 </ListItem.Content>
               </ListItem>
               <ListItem
                 bottomDivider
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Privacy Policy
                   </ListItem.Title>
-                  <ListItem.Subtitle style={styles.listSubtitles}>
-                    {"United States "}{" "}
-                    <Feather name="chevron-right" size={18} />
-                  </ListItem.Subtitle>
                 </ListItem.Content>
               </ListItem>
               <ListItem
                 // bottomDivider
                 containerStyle={{
-                  borderTopEndRadius: 10,
-                  borderTopStartRadius: 10,
-                  paddingHorizontal: 0,
+                  borderBottomEndRadius: 10,
+                  borderBottomStartRadius: 10,
+                  paddingHorizontal: 15,
                   paddingVertical: 11,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
-                  <ListItem.Title style={{ margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
                     Disclaimer
                   </ListItem.Title>
-                  <ListItem.Subtitle style={styles.listSubtitles}>
-                    {"Default "} <Feather name="chevron-right" size={18} />
-                  </ListItem.Subtitle>
                 </ListItem.Content>
               </ListItem>
             </>
           </View>
-          <View style={{ marginTop: 0 }}>
-            {/* <Text style={styles.sectionTitles}>App Version 0.0.0</Text> */}
-            <Text
-              style={{
-                color: "red",
-                fontSize: 16,
-                marginTop: 15,
-              }}
-            >
-              <Feather name="log-out" size={20} /> Logout
-            </Text>
+          <View style={{ marginVertical: 20 }}>
+            <>
+              <ListItem
+                bottomDivider
+                containerStyle={{
+                  borderTopEndRadius: 10,
+                  borderTopStartRadius: 10,
+                  paddingHorizontal: 15,
+                  paddingVertical: 11,
+                }}
+              >
+                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                  <ListItem.Title style={styles.listTitles}>
+                    App Version 0.0.0
+                  </ListItem.Title>
+                </ListItem.Content>
+              </ListItem>
+              <ListItem
+                containerStyle={{
+                  borderBottomEndRadius: 10,
+                  borderBottomStartRadius: 10,
+                  paddingHorizontal: 15,
+                  paddingVertical: 11,
+                }}
+              >
+                <ListItem.Content style={{ height: 21, padding: 0, margin: 0 }}>
+                  <ListItem.Title
+                    style={{
+                      color: "red",
+                      fontSize: 15,
+                      fontFamily: "Inter400",
+                    }}
+                  >
+                    <Feather name="log-out" size={20} /> Logout
+                  </ListItem.Title>
+                </ListItem.Content>
+              </ListItem>
+            </>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   membersContainer: {
-    width: "90%",
-    position: "absolute",
-    top: "2%",
+    // width: "90%",
+    // position: "absolute",
+    // top: "2%",
+    marginHorizontal: 15,
     marginTop: 10,
   },
   background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    // justifyContent: "center",
+    // alignItems: "center",
+    backgroundColor: "#EFF4F4",
   },
   header: {
     flex: 1,
@@ -296,11 +333,23 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
     color: "grey",
-    fontSize: 16,
+    fontFamily: "Inter400",
+    fontSize: 15,
+  },
+  listTitles: {
+    fontFamily: "Inter400",
+    fontSize: 15,
+  },
+  scrollView: {
+    //     backgroundColor: "pink",
+    marginHorizontal: 20,
+    flex: 1,
   },
   sectionTitles: {
     fontSize: 14,
     marginBottom: 7,
+    paddingHorizontal: 15,
+    fontFamily: "Inter400",
   },
 });
 
