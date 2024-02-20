@@ -17,114 +17,83 @@ import { Avatar, Button, Icon, ListItem, ThemeProvider } from "@rneui/themed";
 import { AppTheme, useStyles } from "../../themes";
 import StackScreenComponent from "../../../components/StackScreen";
 import members from "../../../lib/members";
+import MemberRow from "../../../components/MemberRow";
+import ComponentDivider from "../../../components/ComponentDivider";
 
 export default function FamilyMembersScreen() {
     const deps = members.slice(1);
     const router = useRouter();
+    const accoumtMembers = [];
     return (
         <View style={styles.background}>
             <StackScreenComponent title={"Manage Members"} />
-            <View style={styles.accountMembersContainer}>
-                <Text style={styles.accountMembersTitle}>ACCOUNT MEMBERS</Text>
-                <>
-                    <ListItem
-                        bottomDivider
-                        containerStyle={{
-                            borderTopEndRadius: 10,
-                            borderTopStartRadius: 10,
-                            paddingHorizontal: 15,
-                            paddingVertical: 11,
-                        }}>
-                        <Avatar
-                            rounded
-                            source={{
-                                uri: "https://randomuser.me/api/portraits/men/36.jpg",
-                            }}
-                            size={32}
-                        />
-                        <ListItem.Content
-                            style={{ height: 20, padding: 0, margin: 0 }}>
-                            <ListItem.Title
-                                style={{ paddingLeft: 3, margin: 0 }}>
-                                Maria
-                            </ListItem.Title>
-                            <ListItem.Subtitle style={styles.listSubtitles}>
+            <View>
+                <Text style={styles.accountMembersTitle}>
+                    DEPENDENT MEMBERS
+                </Text>
+
+                <ComponentDivider>
+                    <MemberRow
+                        url={{
+                            uri: "https://randomuser.me/api/portraits/men/36.jpg",
+                        }}
+                        name='Dylan'
+                        rightComponent={
+                            <Text style={[styles.text, { color: "#979B9B" }]}>
                                 Owner
-                            </ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                    <ListItem
-                        bottomDivider
-                        containerStyle={{
-                            paddingHorizontal: 15,
-                            paddingVertical: 11,
+                            </Text>
+                        }
+                    />
+                    <MemberRow
+                        url={{
+                            uri: "https://randomuser.me/api/portraits/men/22.jpg",
+                        }}
+                        name='SomeOne'
+                        rightComponent={
+                            <Text style={[styles.text, styles.removeText]}>
+                                Remove
+                            </Text>
+                        }
+                    />
+                    <MemberRow
+                        url={{
+                            uri: "https://randomuser.me/api/portraits/women/10.jpg",
+                        }}
+                        name='SomeOne'
+                        rightComponent={
+                            <Text style={[styles.text, styles.removeText]}>
+                                Remove
+                            </Text>
+                        }
+                    />
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            padding: 16,
+                            alignItems: "center",
+                            gap: 10,
                         }}>
-                        <Avatar
-                            rounded
-                            icon={{
-                                name: "person-outline",
-                                type: "material",
-                                size: 26,
-                            }}
-                            containerStyle={{ backgroundColor: "#c2c2c2" }}
-                        />
-                        <ListItem.Content>
-                            <ListItem.Title>Alba King</ListItem.Title>
-                            <ListItem.Subtitle style={styles.listSubtitles}>
-                                Vice President
-                            </ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                    <ListItem
-                        containerStyle={{
-                            borderBottomEndRadius: 10,
-                            borderBottomStartRadius: 10,
-                            paddingHorizontal: 15,
-                            paddingVertical: 11,
-                        }}>
-                        <Avatar
-                            rounded
-                            title='A'
-                            containerStyle={{ backgroundColor: "grey" }}
-                        />
-                        <ListItem.Content>
-                            <ListItem.Title>Adam Eva</ListItem.Title>
-                            <ListItem.Subtitle style={styles.listSubtitles}>
-                                Vice Chairman
-                            </ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                    <ListItem>
                         <Feather name='plus-circle' size={24} />
-                        <Text>Add Dependent Member</Text>
-                    </ListItem>
-                </>
+                        <Text>Add Account Member</Text>
+                    </View>
+                </ComponentDivider>
             </View>
             <View>
-                <Text>Dependent Members</Text>
-
-                <View>
+                <Text style={styles.accountMembersTitle}>ACCOUNT MEMBERS</Text>
+                <ComponentDivider>
                     {deps.map((dep) => {
                         return (
-                            <View
+                            <MemberRow
                                 key={dep.id}
-                                style={[
-                                    styles.itemWrapper,
-                                    {
-                                        justifyContent: "space-between",
-                                        backgroundColor: "white",
-                                    },
-                                ]}>
-                                <View style={styles.itemWrapper}>
-                                    <Image
-                                        source={dep.image}
-                                        style={{ width: 24 }}
-                                        resizeMode='contain'
-                                    />
-                                    <Text>{dep.name}</Text>
-                                </View>
-                                <Text>Edit</Text>
-                            </View>
+                                url={dep.image}
+                                name={dep.name}
+                                rightComponent={
+                                    <Text
+                                        style={[styles.text, styles.editText]}>
+                                        Edit
+                                    </Text>
+                                }
+                            />
                         );
                     })}
                     <ListItem
@@ -134,24 +103,34 @@ export default function FamilyMembersScreen() {
                         <Feather name='plus-circle' size={24} />
                         <Text>Add Dependent Member</Text>
                     </ListItem>
-                </View>
+                </ComponentDivider>
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    accountMembersContainer: {
-        borderRadius: 50,
+    text: {
+        fontFamily: "Inter400",
+        fontSize: 16,
     },
     accountMembersTitle: {
-        fontSize: 16,
+        fontSize: 14,
         marginBottom: 10,
+        fontFamily: "Inter400",
+        paddingLeft: 16,
+    },
+    removeText: {
+        color: "#E13F3F",
+    },
+    editText: {
+        color: "#4B86ED",
     },
     background: {
         flex: 1,
         padding: 16,
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "#EFF4F4",
+        gap: 20,
     },
     header: {
         flex: 1,
