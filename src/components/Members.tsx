@@ -72,8 +72,8 @@ const MemberProfile = ({ member, activeId, setActive }: Props) => {
                 ]}>
                 <Image
                     source={member.image as ImageProps}
-                    width={55}
-                    height={55}
+                    style={{ width: 55, height: 55 }}
+                    resizeMode='contain'
                 />
             </View>
             <Text

@@ -13,6 +13,7 @@ import {
     Inter_800ExtraBold,
     Inter_900Black,
 } from "@expo-google-fonts/inter";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 const Layout = () => {
     let [fontLoaded, fontError] = useFonts({
@@ -32,11 +33,13 @@ const Layout = () => {
     }
     return (
         <ThemeProvider theme={AppTheme}>
-            <Stack
-                screenOptions={{
-                    headerShown: false,
-                }}
-            />
+            <RootSiblingParent>
+                <Stack
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                />
+            </RootSiblingParent>
         </ThemeProvider>
     );
 };
