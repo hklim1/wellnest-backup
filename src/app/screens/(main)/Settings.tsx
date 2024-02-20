@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  PixelRatio,
 } from "react-native";
 import { Button } from "@rneui/themed";
 import { Stack, Link, useRouter, router } from "expo-router";
@@ -12,7 +13,6 @@ import { Avatar, Icon, ListItem } from "@rneui/themed";
 import { ThemeProvider } from "@react-navigation/native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 // import { Frog } from "../../../lib/userIcons";
-import * as Pics from "../../../lib/userIcons";
 import { UserIcon } from "../../../components/UserIcons";
 
 const Settings = () => {
@@ -51,12 +51,18 @@ const Settings = () => {
               <ListItem
                 containerStyle={{
                   borderRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <UserIcon name="smallBearCircle" />
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <UserIcon name="bear" height={20} width={20} />
+                <ListItem.Content
+                  style={{
+                    height: 19,
+                    padding: 0,
+                    margin: 0,
+                  }}
+                >
                   <ListItem.Title style={{ paddingLeft: 0, margin: 0 }}>
                     Maria
                   </ListItem.Title>
@@ -78,13 +84,13 @@ const Settings = () => {
                   containerStyle={{
                     borderTopEndRadius: 10,
                     borderTopStartRadius: 10,
-                    paddingHorizontal: 15,
-                    paddingVertical: 11,
+                    paddingHorizontal: 16,
+                    paddingVertical: 8,
                   }}
                 >
                   <Feather name="users" size={20} color="black" />
                   <ListItem.Content
-                    style={{ height: 20, padding: 0, margin: 0 }}
+                    style={{ height: 19, padding: 0, margin: 0 }}
                   >
                     <ListItem.Title
                       style={{
@@ -104,8 +110,8 @@ const Settings = () => {
                 <ListItem
                   bottomDivider
                   containerStyle={{
-                    paddingHorizontal: 15,
-                    paddingVertical: 11,
+                    paddingHorizontal: 16,
+                    paddingVertical: 8,
                     borderBottomLeftRadius: 10,
                     borderBottomRightRadius: 10,
                   }}
@@ -128,11 +134,11 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Language
                   </ListItem.Title>
@@ -144,11 +150,11 @@ const Settings = () => {
               <ListItem
                 bottomDivider
                 containerStyle={{
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Country/Region
                   </ListItem.Title>
@@ -163,11 +169,11 @@ const Settings = () => {
                 containerStyle={{
                   borderBottomEndRadius: 10,
                   borderBottomStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     App Appearance
                   </ListItem.Title>
@@ -186,11 +192,11 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Help Center
                   </ListItem.Title>
@@ -201,11 +207,11 @@ const Settings = () => {
                 containerStyle={{
                   borderBottomEndRadius: 10,
                   borderBottomStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Customer Support
                   </ListItem.Title>
@@ -221,11 +227,11 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Terms and Conditions
                   </ListItem.Title>
@@ -234,8 +240,8 @@ const Settings = () => {
               <ListItem
                 bottomDivider
                 containerStyle={{
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 10,
                 }}
               >
                 <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
@@ -249,11 +255,11 @@ const Settings = () => {
                 containerStyle={{
                   borderBottomEndRadius: 10,
                   borderBottomStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     Disclaimer
                   </ListItem.Title>
@@ -268,11 +274,11 @@ const Settings = () => {
                 containerStyle={{
                   borderTopEndRadius: 10,
                   borderTopStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 20, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title style={styles.listTitles}>
                     App Version 0.0.0
                   </ListItem.Title>
@@ -282,11 +288,11 @@ const Settings = () => {
                 containerStyle={{
                   borderBottomEndRadius: 10,
                   borderBottomStartRadius: 10,
-                  paddingHorizontal: 15,
-                  paddingVertical: 11,
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
                 }}
               >
-                <ListItem.Content style={{ height: 21, padding: 0, margin: 0 }}>
+                <ListItem.Content style={{ height: 19, padding: 0, margin: 0 }}>
                   <ListItem.Title
                     style={{
                       color: "red",
@@ -311,7 +317,7 @@ const styles = StyleSheet.create({
     // width: "90%",
     // position: "absolute",
     // top: "2%",
-    marginHorizontal: 15,
+    marginHorizontal: 16,
     marginTop: 10,
   },
   background: {
@@ -334,11 +340,11 @@ const styles = StyleSheet.create({
     margin: 0,
     color: "grey",
     fontFamily: "Inter400",
-    fontSize: 15,
+    fontSize: 16,
   },
   listTitles: {
     fontFamily: "Inter400",
-    fontSize: 15,
+    fontSize: 16,
   },
   scrollView: {
     //     backgroundColor: "pink",
@@ -348,7 +354,7 @@ const styles = StyleSheet.create({
   sectionTitles: {
     fontSize: 14,
     marginBottom: 7,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     fontFamily: "Inter400",
   },
 });
