@@ -46,3 +46,4 @@ export const Pig = require("./UserIcons/pig.png");
 export const PigCircle = require("./UserIcons/pigCircle.png");
 export const PigSelected = require("./UserIcons/pigSelected.png");
 export const PigPlus = require("./UserIcons/pigPlus.png");
+export const GoogleIcon = require("./googleIcon.png");
