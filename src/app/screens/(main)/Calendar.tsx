@@ -11,6 +11,7 @@ import { Badge, ListItem } from "@rneui/themed";
 import data from "../../../lib/appointments";
 import AppointmentCard from "../../../components/AppointmentCard";
 import { MarkedDates } from "react-native-calendars/src/types";
+import HeaderRight from "../../../components/HeaderRight";
 
 const last = {
     id: -1,
@@ -78,18 +79,11 @@ const CalendarScreen = () => {
                     headerTitleAlign: "center",
                     headerShadowVisible: false,
                     headerStyle: {
-                        backgroundColor: "transparent",
+                        backgroundColor: "#F5F7F7",
                     },
                     headerRight: () => (
-                        <View style={styles.iconWrapper}>
-                            <View>
-                                <Feather name='bell' size={24} />
-                                <Badge
-                                    status='error'
-                                    containerStyle={styles.badge}
-                                />
-                            </View>
-                            <Feather name='settings' size={24} />
+                        <View style={{ paddingRight: 16 }}>
+                            <HeaderRight />
                         </View>
                     ),
                 }}
