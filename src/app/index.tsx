@@ -34,9 +34,10 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider theme={AppTheme}>
-        <WelcomeScreen />
-      </ThemeProvider>
+      {/* <ThemeProvider theme={AppTheme}> */}
+      <WelcomeScreen />
+      {/* redirect user to homescreen if they already exist */}
+      {/* </ThemeProvider> */}
     </SafeAreaProvider>
   );
 }

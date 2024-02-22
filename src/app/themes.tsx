@@ -25,8 +25,8 @@ export const AppTheme = createTheme({
       size: "lg",
       radius: 10,
       disabledStyle: {
-        backgroundColor: "#0FA6B0",
-        opacity: 0.3,
+        backgroundColor: "#99BBBD",
+        // opacity: 0.3,
       },
 
       disabledTitleStyle: {

@@ -11,10 +11,12 @@ import {
 } from "react-native";
 import { Link, Stack, router } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Button, Icon, ThemeProvider, useTheme } from "@rneui/themed";
+import { Button, Icon, Image, ThemeProvider, useTheme } from "@rneui/themed";
 import { AppTheme, useStyles } from "../../themes";
 import { firebaseAuth } from "../../../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Feather } from "@expo/vector-icons";
+import { GoogleIcon } from "../../../../assets";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
@@ -50,7 +52,7 @@ export default function RegisterScreen() {
       <ImageBackground
         source={require("../../../../assets/treeBackground.png")}
         style={styles.background}
-        imageStyle={{ opacity: 0.3 }}
+        // imageStyle={{ opacity: 0.3 }}
       >
         <Stack.Screen options={{ headerShown: false }} />
         <View style={styles.topHalf}>
@@ -58,7 +60,7 @@ export default function RegisterScreen() {
             buttonStyle={styles.backButton}
             onPress={() => router.back()}
             title={"  "}
-            icon={<Icon name="chevron-left" color="#8c9292" size={30} />}
+            icon={<Feather name="chevron-left" color="#5A5E5E" size={24} />}
           />
           <Text style={styles.createAcc}>Create an account</Text>
         </View>
@@ -80,8 +82,9 @@ export default function RegisterScreen() {
                   title="Continue"
                   titleStyle={{
                     color: "white",
-                    fontWeight: "300",
+                    // fontWeight: "300",
                     fontSize: 16,
+                    fontFamily: "Inter400",
                   }}
                   onPress={() =>
                     router.push({
@@ -101,7 +104,7 @@ export default function RegisterScreen() {
           <View style={{ flexDirection: "row", marginVertical: 30 }}>
             <View
               style={{
-                backgroundColor: "lightgrey",
+                backgroundColor: "#999F9F",
                 height: 1,
                 flex: 1,
                 alignSelf: "center",
@@ -113,14 +116,14 @@ export default function RegisterScreen() {
                 alignSelf: "center",
                 paddingHorizontal: 10,
                 fontSize: 14,
-                fontWeight: "300",
+                fontFamily: "Inter400",
               }}
             >
               or
             </Text>
             <View
               style={{
-                backgroundColor: "lightgrey",
+                backgroundColor: "#999F9F",
                 height: 1,
                 flex: 1,
                 alignSelf: "center",
@@ -129,16 +132,22 @@ export default function RegisterScreen() {
           </View>
           <Button
             title="Continue with Google"
-            titleStyle={{ color: "black", fontWeight: "300", fontSize: 16 }}
+            titleStyle={{
+              flex: 1,
+              color: "black",
+              fontFamily: "Inter500",
+              fontSize: 16,
+            }}
             icon={
-              <Icon
-                name="mail"
-                color="lightgrey"
-                size={20}
-                style={{ paddingRight: 15 }}
+              <Image
+                source={GoogleIcon}
+                style={{
+                  width: 20,
+                  height: 20,
+                }}
               />
             }
-            onPress={() => router.push("/screens/CreatePasswordScreen")}
+            onPress={() => router.navigate("/screens/CreatePasswordScreen")}
             buttonStyle={styles.googleButton}
           ></Button>
         </View>
@@ -146,7 +155,8 @@ export default function RegisterScreen() {
           By continuing, you agree to Wellnest's{" "}
           <Link
             style={{
-              color: "#0FA6B0",
+              color: "#5A5E5E",
+              fontFamily: "Inter400",
               textDecorationLine: "underline",
             }}
             href="screens/LoginScreen"
@@ -156,7 +166,8 @@ export default function RegisterScreen() {
           and{" "}
           <Link
             style={{
-              color: "#0FA6B0",
+              color: "#5A5E5E",
+              fontFamily: "Inter400",
               textDecorationLine: "underline",
             }}
             href="screens/LoginScreen"
@@ -174,61 +185,73 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    padding: 16,
   },
   backButton: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 50,
-    backgroundColor: "#d3e7e9",
+    backgroundColor: "#B7E4E7",
+    padding: 0,
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     position: "absolute",
-    top: 200,
+    top: 168,
+    width: "100%",
+    // borderColor: "black",
+    // borderWidth: 2,
   },
   createAcc: {
     position: "absolute",
-    top: 84,
-    fontSize: 16,
-    fontWeight: "400",
+    top: 76,
+    fontSize: 20,
+    // fontWeight: "400",
+    fontFamily: "Inter500",
   },
   googleButton: {
-    width: 350,
-    marginLeft: 3,
-    marginTop: 4,
+    width: "100%",
+    height: 50,
+    // marginLeft: 3,
+    // marginTop: 4,
     backgroundColor: "#f0f0f0",
     color: "black",
-    borderColor: "lightgrey",
+    borderColor: "#979B9B",
     borderWidth: 1,
   },
   input: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    width: 350,
-    height: 46,
+    // alignItems: "center",
+    // justifyContent: "center",
+    fontFamily: "Inter400",
+    fontSize: 16,
+    // fontColor: "#f0f0f0",
+    padding: 16,
+    width: "100%",
+    height: 50,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
-    margin: 4,
+    borderColor: "#979B9B",
+    backgroundColor: "#f0f0f0",
+    // margin: 4,
+    marginBottom: 10,
   },
   policies: {
     width: 250,
-    color: "grey",
+    color: "#5A5E5E",
     textAlign: "center",
     paddingHorizontal: 10,
     fontSize: 12,
-    fontWeight: "300",
+    fontFamily: "Inter400",
+    // fontWeight: "300",
     position: "absolute",
     bottom: 50,
   },
   topHalf: {
     position: "absolute",
-    top: 80,
-    left: 20,
+    top: 50,
+    left: 16,
     width: 300,
   },
 });
