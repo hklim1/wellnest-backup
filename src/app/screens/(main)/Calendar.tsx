@@ -16,7 +16,7 @@ import HeaderRight from "../../../components/HeaderRight";
 const last = {
     id: -1,
     name: "All",
-    image: family,
+    image: "all",
     email: "maria@gmail.com",
     color: "#0FA6B0",
 };

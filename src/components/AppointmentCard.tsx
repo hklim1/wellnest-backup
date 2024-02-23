@@ -5,6 +5,7 @@ import { AppointmentType } from "../lib/appointments";
 import { Feather } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
+import { UserIcon } from "./UserIcons";
 type Props = {
     data: AppointmentType;
 };
@@ -20,11 +21,7 @@ const AppointmentCard = ({ data }: Props) => {
             }}
             style={styles.container}>
             <View>
-                <Image
-                    source={image}
-                    style={{ width: 30 }}
-                    resizeMode='contain'
-                />
+                <UserIcon name={image + "Circle"} width={32} height={32} />
             </View>
             <View style={styles.details}>
                 <View style={styles.titleWrapper}>

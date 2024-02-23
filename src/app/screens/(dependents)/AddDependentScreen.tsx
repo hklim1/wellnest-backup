@@ -6,7 +6,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     Pressable,
     FlatList,
     ScrollView,
@@ -14,10 +13,8 @@ import {
 import { Button } from "@rneui/themed";
 import { createDependent } from "../../utils/firebaseUtils";
 import { Stack, router } from "expo-router";
-import * as UserImages from "../../../lib/userIcons";
-import { Feather } from "@expo/vector-icons";
 import { BottomSheet } from "@rneui/themed";
-import UserIcon from "../../../components/UserIconA";
+import { UserIcon } from "../../../components/UserIcons";
 import TextInputLabel from "../../../components/TextInputLabel";
 import Toast from "react-native-root-toast";
 import { Dialog } from "@rneui/themed";
@@ -25,22 +22,23 @@ import { Dropdown } from "react-native-element-dropdown";
 
 export default function AddDependentScreen() {
     const allIcons = [
-        UserImages.Dog,
-        UserImages.Bear,
-        UserImages.Fox,
-        UserImages.Frog,
-        UserImages.Hamster,
-        UserImages.Monkey,
-        UserImages.Panda,
-        UserImages.Swine,
+        "cow",
+        "gorilla",
+        "Koala",
+        "alligator",
+        "pig",
+        "fox",
+        "bear",
+        "penguin",
+        "frog",
+        "lion",
     ];
     const [dFirstName, setFirstName] = useState("");
     const [dDateOfBirth, setDateOfBirth] = useState("");
     const [dGender, setGender] = useState("");
     const [dNotes, setNotes] = useState("");
-    const [dIcon, setIcon] = useState("chess-pawn");
+    const [dIcon, setIcon] = useState("member");
     const [open, setOpen] = useState(false);
-    const [id, setId] = useState(1);
     const [openCalendar, setOpenCalendar] = useState(false);
     const genderOptions = [
         { label: "Male", value: "Male" },
@@ -96,15 +94,7 @@ export default function AddDependentScreen() {
                 <Pressable
                     style={styles.imageWrapper}
                     onPress={() => setOpen(true)}>
-                    <Image
-                        // using the ids as the index
-                        source={allIcons[id].img}
-                        style={{ width: 50, height: 50 }}
-                        resizeMode='contain'
-                    />
-                    <View style={styles.badge}>
-                        <Feather name='plus' size={16} color='white' />
-                    </View>
+                    <UserIcon name={dIcon + "Plus"} width={60} height={60} />
                 </Pressable>
             </View>
 
@@ -189,17 +179,23 @@ export default function AddDependentScreen() {
                     <View style={{ alignItems: "center", marginTop: 16 }}>
                         <FlatList
                             nestedScrollEnabled
-                            numColumns={4}
-                            columnWrapperStyle={{ gap: 8 }}
-                            contentContainerStyle={{ gap: 8 }}
+                            numColumns={5}
+                            columnWrapperStyle={{ gap: 16 }}
+                            contentContainerStyle={{ gap: 16 }}
                             data={allIcons}
                             renderItem={({ item }) => {
                                 return (
-                                    <UserIcon
-                                        activeId={id}
-                                        setActiveId={setId}
-                                        icon={item}
-                                    />
+                                    <Pressable onPress={() => setIcon(item)}>
+                                        <UserIcon
+                                            name={
+                                                dIcon == item
+                                                    ? item + "Selected"
+                                                    : item + "Circle"
+                                            }
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </Pressable>
                                 );
                             }}
                         />
@@ -236,10 +232,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: 60,
         height: 60,
-        backgroundColor: "white",
         alignItems: "center",
-        padding: 10,
-        borderRadius: 100,
     },
     imageContainer: {
         justifyContent: "center",
