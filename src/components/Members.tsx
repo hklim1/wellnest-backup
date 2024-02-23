@@ -1,14 +1,7 @@
 import React from "react";
-import {
-    View,
-    Text,
-    FlatList,
-    Image,
-    StyleSheet,
-    Pressable,
-    ImageProps,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
 import { MemberType } from "../lib/members";
+import { UserIcon } from "./UserIcons";
 
 type MemberProps = {
     activeMember: number;
@@ -29,7 +22,11 @@ const Members = ({
             <FlatList
                 key={key}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: 8, paddingTop: 10, columnGap: 8 }}
+                contentContainerStyle={{
+                    gap: 10,
+                    paddingTop: 10,
+                    columnGap: 10,
+                }}
                 horizontal={!numCols}
                 numColumns={numCols}
                 data={members}
@@ -56,26 +53,17 @@ const MemberProfile = ({ member, activeId, setActive }: Props) => {
     const handlePress = (id: number) => {
         setActive(id);
     };
+    // since the
+    const image =
+        activeId == member.id
+            ? member.image + "Selected"
+            : member.image + "Circle";
     return (
         <Pressable
             onPress={() => {
                 handlePress(member.id);
             }}>
-            <View
-                style={[
-                    styles.imageWrapper,
-                    activeId == member.id && [
-                        styles.activeMember,
-                        { borderColor: member.color },
-                    ],
-                    ,
-                ]}>
-                <Image
-                    source={member.image as ImageProps}
-                    style={{ width: 55, height: 55 }}
-                    resizeMode='contain'
-                />
-            </View>
+            <UserIcon name={image} width={55} height={55} />
             <Text
                 style={[
                     styles.text,
@@ -91,8 +79,9 @@ const styles = StyleSheet.create({
     member: {},
     text: {
         textAlign: "center",
-        color: "#b7b7b7",
-        fontFamily: "Inter600",
+        color: "#979B9B",
+        fontFamily: "Inter500",
+        fontSize: 14,
     },
     activeMember: {
         borderWidth: 3,

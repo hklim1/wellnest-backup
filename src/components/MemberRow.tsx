@@ -1,23 +1,17 @@
 import React, { ReactNode } from "react";
-import {
-    Text,
-    View,
-    StyleSheet,
-    ImageProps,
-    ImageSourcePropType,
-} from "react-native";
-import { Avatar } from "@rneui/themed";
+import { Text, View, StyleSheet } from "react-native";
+import { UserIcon } from "./UserIcons";
 type Props = {
-    url: ImageSourcePropType;
+    imageName: string;
     name: string;
     rightComponent: ReactNode;
 };
 
-const MemberRow = ({ url, name, rightComponent }: Props) => {
+const MemberRow = ({ imageName, name, rightComponent }: Props) => {
     return (
         <View style={[styles.container, styles.row]}>
             <View style={[styles.row, styles.wrapper]}>
-                <Avatar rounded source={url as ImageProps} size={32} />
+                <UserIcon name={imageName + "Circle"} />
                 <View>
                     <Text style={styles.text}>{name}</Text>
                 </View>

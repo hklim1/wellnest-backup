@@ -1,21 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { FontAwesome, Feather } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
-import { Avatar, Badge } from "@rneui/themed";
+import { View, Text, StyleSheet } from "react-native";
 import HeaderRight from "./HeaderRight";
+import { UserIcon } from "./UserIcons";
 
 const Header = () => {
     return (
         <View style={styles.headerWrapper}>
             <View style={styles.welcomeWrapper}>
-                <Avatar
-                    rounded
-                    source={{
-                        uri: "https://randomuser.me/api/portraits/women/10.jpg",
-                    }}
-                    size={24}
-                />
+                <UserIcon name='bearCircle' />
                 <Text style={styles.text}>Welcome Back, Maria!</Text>
             </View>
             <HeaderRight />

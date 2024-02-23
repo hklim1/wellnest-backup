@@ -43,10 +43,8 @@ export default function FamilyMembersScreen() {
 
                 <ComponentDivider>
                     <MemberRow
-                        url={{
-                            uri: "https://randomuser.me/api/portraits/men/36.jpg",
-                        }}
-                        name='Dylan'
+                        imageName='fox'
+                        name='Ruby'
                         rightComponent={
                             <Text style={[styles.text, { color: "#979B9B" }]}>
                                 Owner
@@ -54,10 +52,8 @@ export default function FamilyMembersScreen() {
                         }
                     />
                     <MemberRow
-                        url={{
-                            uri: "https://randomuser.me/api/portraits/men/22.jpg",
-                        }}
-                        name='SomeOne'
+                        imageName='alligator'
+                        name='Heather'
                         rightComponent={
                             <Text style={[styles.text, styles.removeText]}>
                                 Remove
@@ -65,10 +61,8 @@ export default function FamilyMembersScreen() {
                         }
                     />
                     <MemberRow
-                        url={{
-                            uri: "https://randomuser.me/api/portraits/women/10.jpg",
-                        }}
-                        name='SomeOne'
+                        imageName='gorilla'
+                        name='Ashley'
                         rightComponent={
                             <Text style={[styles.text, styles.removeText]}>
                                 Remove
@@ -94,7 +88,7 @@ export default function FamilyMembersScreen() {
                         return (
                             <MemberRow
                                 key={dep.id}
-                                url={dep.image}
+                                imageName={dep.image}
                                 name={dep.name}
                                 rightComponent={
                                     <Link href={`/screens/edit/${dep.id}`}>
