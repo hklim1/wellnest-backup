@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firebaseDB } from "../../../../FirebaseConfig";
+import { firebaseDB } from "../../../../../FirebaseConfig";
 
 import DatePicker from "react-native-modern-datepicker";
 import {
@@ -11,19 +11,20 @@ import {
     FlatList,
     ScrollView,
 } from "react-native";
-import { Button } from "@rneui/themed";
-import { createDependent } from "../../utils/firebaseUtils";
-import { Stack, router } from "expo-router";
-import * as UserImages from "../../../lib/userIcons";
+import { Button, Overlay } from "@rneui/themed";
+import { createDependent } from "../../../utils/firebaseUtils";
+import { Stack, router, useLocalSearchParams } from "expo-router";
+import * as UserImages from "../../../../lib/userIcons";
 import { Feather } from "@expo/vector-icons";
 import { BottomSheet } from "@rneui/themed";
-import UserIcon from "../../../components/UserIconA";
-import TextInputLabel from "../../../components/TextInputLabel";
+import UserIcon from "../../../../components/UserIconA";
+import TextInputLabel from "../../../../components/TextInputLabel";
 import Toast from "react-native-root-toast";
 import { Dialog } from "@rneui/themed";
 import { Dropdown } from "react-native-element-dropdown";
+import members from "../../../../lib/members";
 
-export default function AddDependentScreen() {
+export default function EditDependentScreen() {
     const allIcons = [
         UserImages.Dog,
         UserImages.Bear,
@@ -34,14 +35,18 @@ export default function AddDependentScreen() {
         UserImages.Panda,
         UserImages.Swine,
     ];
-    const [dFirstName, setFirstName] = useState("");
-    const [dDateOfBirth, setDateOfBirth] = useState("");
-    const [dGender, setGender] = useState("");
+    const { userId } = useLocalSearchParams();
+    const userIdValue = parseInt(userId as string);
+    const currentMember = members[userIdValue - 1];
+    const [dFirstName, setFirstName] = useState(currentMember.name);
+    const [dDateOfBirth, setDateOfBirth] = useState(currentMember.color);
+    const [dGender, setGender] = useState(currentMember.email);
     const [dNotes, setNotes] = useState("");
-    const [dIcon, setIcon] = useState("chess-pawn");
+    const [dIcon, setIcon] = useState(currentMember.image);
     const [open, setOpen] = useState(false);
     const [id, setId] = useState(1);
     const [openCalendar, setOpenCalendar] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const genderOptions = [
         { label: "Male", value: "Male" },
         { label: "Female", value: "Female" },
@@ -51,15 +56,9 @@ export default function AddDependentScreen() {
     console.log(firebaseDB);
 
     const toggleCalendar = () => setOpenCalendar(!openCalendar);
-
+    // implement edit dependent function
     const createNewDependent = () => {
-        const value = createDependent(
-            dFirstName,
-            dDateOfBirth,
-            dGender,
-            dNotes,
-            dIcon
-        );
+        createDependent(dFirstName, dDateOfBirth, dGender, dNotes, dIcon);
         Toast.show("New Dependent has been added", {
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
@@ -71,7 +70,7 @@ export default function AddDependentScreen() {
         <ScrollView style={styles.container}>
             <Stack.Screen
                 options={{
-                    title: "Add Dependent Member",
+                    title: "Edit Dependent Member",
                     headerShown: true,
                     headerLeft: () => (
                         <Text
@@ -89,6 +88,13 @@ export default function AddDependentScreen() {
                         fontFamily: "Inter600",
                     },
                     headerStyle: { backgroundColor: "#EFF4F4" },
+                    headerRight: () => (
+                        <Text
+                            onPress={() => setOpenDelete(true)}
+                            style={{ color: "#E35454" }}>
+                            Delete
+                        </Text>
+                    ),
                 }}
             />
 
@@ -172,6 +178,36 @@ export default function AddDependentScreen() {
                 <Button onPress={createNewDependent}>Save</Button>
             </View>
 
+            {/* OVERLAY */}
+            <Overlay
+                isVisible={openDelete}
+                overlayStyle={styles.overlayContainer}>
+                <Text style={styles.overlayTitle}>Delete Dependent Member</Text>
+                <Text style={styles.overlayText}>
+                    Are you sure you want to delete the selected dependent
+                    member?
+                </Text>
+                <View style={styles.buttonRow}>
+                    <Button
+                        onPress={() => {
+                            Toast.show("Dependent has been deleted!", {
+                                duration: Toast.durations.LONG,
+                                position: Toast.positions.BOTTOM,
+                            });
+                            router.back();
+                        }}
+                        title='Delete'
+                        buttonStyle={styles.overlayButton}
+                        titleStyle={{ color: "#E35454" }}
+                    />
+                    <Button
+                        onPress={() => setOpenDelete(false)}
+                        title='Cancel'
+                        buttonStyle={styles.overlayButton}
+                        titleStyle={{ color: "black" }}
+                    />
+                </View>
+            </Overlay>
             <BottomSheet
                 isVisible={open}
                 onBackdropPress={() => {
@@ -273,5 +309,34 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         backgroundColor: "#D3D3D3",
         margin: "auto",
+    },
+    overlayContainer: {
+        borderRadius: 10,
+        paddingHorizontal: 32,
+        paddingVertical: 16,
+        width: 330,
+        gap: 20,
+    },
+    overlayTitle: {
+        fontSize: 16,
+        fontFamily: "Inter500",
+        textAlign: "center",
+        color: "#1A1D1D",
+    },
+    overlayText: {
+        fontSize: 16,
+        fontFamily: "Inter400",
+        color: "#4F5252",
+        textAlign: "center",
+        marginBottom: 10,
+    },
+    buttonRow: {
+        flexDirection: "row",
+        gap: 16,
+    },
+    overlayButton: {
+        paddingHorizontal: 43,
+        paddingVertical: 12,
+        backgroundColor: "#EFF4F4",
     },
 });

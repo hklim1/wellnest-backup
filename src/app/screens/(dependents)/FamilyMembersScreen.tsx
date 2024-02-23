@@ -1,50 +1,41 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-    ActivityIndicator,
-    ImageBackground,
-    KeyboardAvoidingView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    Image,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Link, Stack, useRouter } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Avatar, Button, Icon, ListItem, ThemeProvider } from "@rneui/themed";
-import { AppTheme, useStyles } from "../../themes";
-import StackScreenComponent from "../../../components/StackScreen";
+import { Button, Icon, ListItem } from "@rneui/themed";
 import members from "../../../lib/members";
 import MemberRow from "../../../components/MemberRow";
 import ComponentDivider from "../../../components/ComponentDivider";
 
 export default function FamilyMembersScreen() {
-
     const deps = members.slice(1);
     const router = useRouter();
-    const accoumtMembers = [];
     return (
         <View style={styles.background}>
             <Stack.Screen
-          options={{
-            headerBackTitle: "Cancel",
-            headerShown: true,
-            title: "Settings",
-            headerTitleStyle: { fontSize: 16, fontWeight: "500" },
-            headerTitleAlign: "center",
-            headerLeft: () => (
-              <Button
-                type="clear"
-                onPress={() => router.push("/screens/HouseHold")}
-                title={"  "}
-                icon={<Icon name="chevron-left" color="black" size={30} />}
-              />
-            ),
-            headerShadowVisible: false,
-          }}
-        />
+                options={{
+                    headerBackTitle: "Cancel",
+                    headerShown: true,
+                    title: "Settings",
+                    headerTitleStyle: { fontSize: 16, fontWeight: "500" },
+                    headerTitleAlign: "center",
+                    headerLeft: () => (
+                        <Button
+                            type='clear'
+                            onPress={() => router.back()}
+                            title={"  "}
+                            icon={
+                                <Icon
+                                    name='chevron-left'
+                                    color='black'
+                                    size={30}
+                                />
+                            }
+                        />
+                    ),
+                    headerShadowVisible: false,
+                }}
+            />
             <View>
                 <Text style={styles.accountMembersTitle}>
                     DEPENDENT MEMBERS
@@ -106,10 +97,15 @@ export default function FamilyMembersScreen() {
                                 url={dep.image}
                                 name={dep.name}
                                 rightComponent={
-                                    <Text
-                                        style={[styles.text, styles.editText]}>
-                                        Edit
-                                    </Text>
+                                    <Link href={`/screens/edit/${dep.id}`}>
+                                        <Text
+                                            style={[
+                                                styles.text,
+                                                styles.editText,
+                                            ]}>
+                                            Edit
+                                        </Text>
+                                    </Link>
                                 }
                             />
                         );
@@ -123,7 +119,6 @@ export default function FamilyMembersScreen() {
                     </ListItem>
                 </ComponentDivider>
             </View>
-
         </View>
     );
 }
