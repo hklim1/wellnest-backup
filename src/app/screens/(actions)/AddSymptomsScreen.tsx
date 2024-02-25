@@ -14,13 +14,20 @@ import {
 } from "react-native";
 import Symptoms from "../../../components/Symptoms";
 import { Feather } from "@expo/vector-icons";
+import dayjs from "dayjs";
 
 const AddSymptomsScreen = () => {
   const [openCalender, setOpenCalender] = useState(false);
   const [openTime, setOpenTime] = useState(false);
   const [openSymptoms, setOpenSymptoms] = useState(false);
-  const [date, setDate] = useState(new Date().toDateString());
+  const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
+  const [notes, setNotes] = useState("");
+
+  console.log(date);
+  const dayjs = require("dayjs");
+  var utc = require("dayjs/plugin/utc");
+  dayjs.extend(utc);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#eff4f4" }}>
@@ -31,14 +38,17 @@ const AddSymptomsScreen = () => {
             <TextInputIcon
               name="calendar"
               placeholder="Date"
-              value={new Date(date).toUTCString().slice(0, 16)}
+              value={dayjs(new Date(date)).format(
+                "ddd, MMM DD, YYYY [at] h:mm A"
+              )}
+              // new Date(date).toUTCString().slice(0, 16).format("ddd, MMM DD, YYYY")}
               onPressIn={() => setOpenCalender(true)}
             />
             {openCalender && (
               <Calendar
                 minDate={new Date().toDateString()}
                 markedDates={{
-                  [date]: {
+                  [date.toDateString()]: {
                     color: "#0FA6B0",
                     activeOpacity: 0.5,
                     selected: true,
@@ -47,8 +57,11 @@ const AddSymptomsScreen = () => {
                   },
                 }}
                 onDayPress={(date) => {
-                  console.log(new Date(date.dateString));
-                  setDate(date.dateString);
+                  console.log(
+                    dayjs(new Date(date.dateString)).format("ddd, MMM DD, YYYY")
+                  );
+                  // console.log(new Date(date))
+                  setDate(new Date(date.dateString));
                   setOpenCalender(false);
                 }}
               />
@@ -80,6 +93,7 @@ const AddSymptomsScreen = () => {
           </ComponentDivider>
           <View
             style={{
+              flex: 1,
               flexDirection: "row",
               gap: 10,
               padding: 10,
@@ -91,20 +105,28 @@ const AddSymptomsScreen = () => {
             }}
           >
             {/* <View style={{ padding: 10}}> */}
-            <Feather name="align-left" size={24} color="grey" />
+            <Feather
+              name="align-left"
+              size={24}
+              color="grey"
+              style={{ alignSelf: "flex-start" }}
+            />
             {/* </View> */}
             <TextInput
               cursorColor={"black"}
               style={{
                 flex: 1,
                 fontSize: 16,
-                // height: "auto",
+                height: 100,
                 fontFamily: "Inter400",
                 flexWrap: "wrap",
               }}
+              value={notes}
+              textAlignVertical={"top"}
               placeholderTextColor="grey"
               placeholder="Add a note"
               multiline={true}
+              onChangeText={() => setNotes(notes)}
             />
           </View>
         </View>
