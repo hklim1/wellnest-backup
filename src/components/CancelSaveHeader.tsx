@@ -5,9 +5,10 @@ import { Pressable, Text, StyleSheet, View } from "react-native";
 
 interface TitleProps {
   titleName: string;
+  saveActions?: void;
 }
 
-export const CancelSaveHeader = ({ titleName }: TitleProps) => {
+export const CancelSaveHeader = ({ titleName, saveActions }: TitleProps) => {
   return (
     <View style={styles.container}>
       <Stack.Screen

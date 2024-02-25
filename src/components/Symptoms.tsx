@@ -38,9 +38,11 @@ const Symptoms = () => {
               setActiveSymptoms(activeSymptoms);
             }}
           />
+        </View>
+        <View style={styles.category}>
           <SymptomsButton
             SymptomTitle="Cough"
-            RightMargin={0}
+            RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
                 activeSymptoms.add("Cough");
@@ -50,8 +52,6 @@ const Symptoms = () => {
               setActiveSymptoms(activeSymptoms);
             }}
           />
-        </View>
-        <View style={styles.category}>
           <SymptomsButton
             SymptomTitle="Discharge"
             RightMargin={10}
@@ -76,9 +76,35 @@ const Symptoms = () => {
               setActiveSymptoms(activeSymptoms);
             }}
           />
+        </View>
+        <View style={styles.category}>
+          <SymptomsButton
+            SymptomTitle="Fatigue"
+            RightMargin={10}
+            onToggle={(isActive) => {
+              if (isActive) {
+                activeSymptoms.add("Fatigue");
+              } else {
+                activeSymptoms.delete("Fatigue");
+              }
+              setActiveSymptoms(activeSymptoms);
+            }}
+          />
+          <SymptomsButton
+            SymptomTitle="Fever"
+            RightMargin={10}
+            onToggle={(isActive) => {
+              if (isActive) {
+                activeSymptoms.add("Fever");
+              } else {
+                activeSymptoms.delete("Fever");
+              }
+              setActiveSymptoms(activeSymptoms);
+            }}
+          />
           <SymptomsButton
             SymptomTitle="Headache"
-            RightMargin={0}
+            RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
                 activeSymptoms.add("Headache");
@@ -114,9 +140,11 @@ const Symptoms = () => {
               setActiveSymptoms(activeSymptoms);
             }}
           />
+        </View>
+        <View style={styles.category}>
           <SymptomsButton
             SymptomTitle="Sneezing"
-            RightMargin={0}
+            RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
                 activeSymptoms.add("Sneezing");
@@ -126,8 +154,6 @@ const Symptoms = () => {
               setActiveSymptoms(activeSymptoms);
             }}
           />
-        </View>
-        <View style={styles.category}>
           <SymptomsButton
             SymptomTitle="Sweats"
             RightMargin={10}
@@ -148,30 +174,6 @@ const Symptoms = () => {
                 activeSymptoms.add("Swelling");
               } else {
                 activeSymptoms.delete("Swelling");
-              }
-              setActiveSymptoms(activeSymptoms);
-            }}
-          />
-          <SymptomsButton
-            SymptomTitle="Fatigue"
-            RightMargin={10}
-            onToggle={(isActive) => {
-              if (isActive) {
-                activeSymptoms.add("Fatigue");
-              } else {
-                activeSymptoms.delete("Fatigue");
-              }
-              setActiveSymptoms(activeSymptoms);
-            }}
-          />
-          <SymptomsButton
-            SymptomTitle="Fever"
-            RightMargin={0}
-            onToggle={(isActive) => {
-              if (isActive) {
-                activeSymptoms.add("Fever");
-              } else {
-                activeSymptoms.delete("Fever");
               }
               setActiveSymptoms(activeSymptoms);
             }}
