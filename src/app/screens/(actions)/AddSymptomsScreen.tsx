@@ -15,6 +15,7 @@ import {
 import Symptoms from "../../../components/Symptoms";
 import { Feather } from "@expo/vector-icons";
 import dayjs from "dayjs";
+import { Button } from "@rneui/themed";
 
 const AddSymptomsScreen = () => {
   const [openCalender, setOpenCalender] = useState(false);
@@ -126,6 +127,7 @@ const AddSymptomsScreen = () => {
               placeholderTextColor="grey"
               placeholder="Add a note"
               multiline={true}
+              onPressIn={() => setOpenSymptoms(false)}
               onChangeText={() => setNotes(notes)}
             />
           </View>
