@@ -4,8 +4,8 @@ import { MemberType } from "../lib/members";
 import { UserIcon } from "./UserIcons";
 
 type MemberProps = {
-    activeMember: number;
-    setActiveMember: React.Dispatch<React.SetStateAction<number>>;
+    activeMember: string;
+    setActiveMember: React.Dispatch<React.SetStateAction<string>>;
     members: MemberType[];
     numCols?: number;
 };
@@ -16,11 +16,9 @@ const Members = ({
     members,
     numCols,
 }: MemberProps) => {
-    const key = numCols ? `numCols_${numCols}` : "default";
     return (
         <View>
             <FlatList
-                key={key}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     gap: 10,
@@ -30,7 +28,6 @@ const Members = ({
                 horizontal={!numCols}
                 numColumns={numCols}
                 data={members}
-                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <MemberProfile
                         member={item}
@@ -45,19 +42,19 @@ const Members = ({
 
 type Props = {
     member: MemberType;
-    activeId: number;
-    setActive: React.Dispatch<React.SetStateAction<number>>;
+    activeId: string;
+    setActive: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const MemberProfile = ({ member, activeId, setActive }: Props) => {
-    const handlePress = (id: number) => {
+    const handlePress = (id: string) => {
         setActive(id);
     };
     // since the
     const image =
         activeId == member.id
-            ? member.image + "Selected"
-            : member.image + "Circle";
+            ? member.icon + "Selected"
+            : member.icon + "Circle";
     return (
         <Pressable
             onPress={() => {
@@ -69,7 +66,7 @@ const MemberProfile = ({ member, activeId, setActive }: Props) => {
                     styles.text,
                     activeId == member.id && styles.activeText,
                 ]}>
-                {member.name}
+                {member.firstName}
             </Text>
         </Pressable>
     );

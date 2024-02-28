@@ -1,18 +1,21 @@
 import * as Pics from "./userIcons";
 
 export type MemberType = {
-    id: number;
+    id: string;
     name: string;
-    image: string;
+    icon: string;
     email: string;
     color: string;
+    gender: "male" | "female";
+    dateOfBirth: any;
+    firstName: string;
 };
 
 const members = [
     {
         id: 1,
         name: "Me",
-        image: "Koala",
+        image: "koala",
         email: "maria@gmail.com",
         color: Pics.Bear.color,
     },

@@ -1,15 +1,21 @@
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Text, View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import ComponentDivider from "../../../components/ComponentDivider";
 import TextInputIcon from "../../../components/TextInputIcon";
 import { Button, ListItem, Dialog } from "@rneui/themed";
 import Members from "../../../components/Members";
 import { Calendar } from "react-native-calendars";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-native-modern-datepicker";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import members from "../../../lib/members";
+import { getUserId } from "../../utils/globalStorage";
+import {
+    getDependentIcons,
+    getDependents,
+    addAppointments,
+} from "../../utils/firebaseUtils";
+import Toast from "react-native-root-toast";
 
 const options = [
     { title: "None", value: 0 },
@@ -29,22 +35,50 @@ const Appointments = () => {
     const [location, setLocation] = useState("");
     const [number, setNumber] = useState("");
     const [note, setNotes] = useState("");
-    const [activeMember, setActiveMember] = useState(0);
+    const [activeMember, setActiveMember] = useState("");
+    const [dependents, setDependents] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        const getInfo = async () => {
+            const id = await getUserId();
+            if (id) {
+                const deps = await getDependents(id);
+                console.log(deps);
+                const result = await getDependentIcons(Object.keys(deps));
+                console.log("============ result is", result);
+                if (result) {
+                    setDependents(result);
+                }
+            } else {
+                console.warn("ID dont exist");
+            }
+        };
+
+        getInfo();
+        setLoading(false);
+    }, []);
 
     const router = useRouter();
 
     const storeData = async () => {
         try {
             const data = {
+                // id gets updated in utils so no worries
+                _id: 0,
                 title: title,
                 date: date,
                 time: time,
-                reminders: reminder,
+                reminder: reminder,
                 location: location,
-                number: number,
+                phone: number,
                 notes: note,
-                member: activeMember,
+                memberId: activeMember,
+                formattedDate: new Date(date).toUTCString().slice(0, 16),
             };
+            await addAppointments(data);
+            Toast.show("New Appointment Has been created!");
             const serializedData = JSON.stringify(data);
             await AsyncStorage.setItem("appointment", serializedData);
             router.back();
@@ -198,14 +232,25 @@ const Appointments = () => {
                 />
             </ComponentDivider>
 
-            <View>
-                <Text style={styles.text}>This is for: </Text>
-                <Members
-                    activeMember={activeMember}
-                    setActiveMember={setActiveMember}
-                    members={members}
-                />
-            </View>
+            {loading ? (
+                <View>
+                    <ActivityIndicator size={40} />
+                    <Text>Loading</Text>
+                </View>
+            ) : (
+                <View>
+                    {Object.keys(dependents).length >= 1 && (
+                        <>
+                            <Text style={styles.text}>This is for: </Text>
+                            <Members
+                                activeMember={activeMember}
+                                setActiveMember={setActiveMember}
+                                members={Object.values(dependents)}
+                            />
+                        </>
+                    )}
+                </View>
+            )}
 
             <Button onPress={storeData}>Save</Button>
         </View>

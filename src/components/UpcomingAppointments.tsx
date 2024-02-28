@@ -1,25 +1,28 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { getAppointments } from "../app/utils/firebaseUtils";
+import { AppointmentType } from "../lib/appointments";
 
-const appointments = [
-    {
-        active: true,
-        date: "Fri, Feb 2",
-        description: "My Dental Cleaning",
-    },
-    {
-        active: false,
-        date: "Thu, Feb 8",
-        description: "My OB/GYN",
-    },
-    {
-        active: false,
-        date: "Mon, Mar 4",
-        description: "Mia's PCP",
-    },
-];
 const UpcomingAppointments = () => {
+    const [appointments, setAppointments] = useState<AppointmentType[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const getData = async () => {
+            setLoading(true);
+            const result = await getAppointments();
+            setAppointments(Object.values(result));
+            setLoading(false);
+            console.log(Object.values(result));
+        };
+
+        getData();
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size='large' />;
+    }
     return (
         <View style={styles.container}>
             <View>
@@ -32,16 +35,17 @@ const UpcomingAppointments = () => {
                 />
             </View>
             <View style={styles.dateStripContainer}>
-                {appointments.map((app, idx) => {
-                    return (
-                        <DateStrip
-                            key={idx}
-                            active={app.active}
-                            date={app.date}
-                            title={app.description}
-                        />
-                    );
-                })}
+                {appointments &&
+                    appointments.slice(0, 3).map((app, idx) => {
+                        return (
+                            <DateStrip
+                                key={idx}
+                                active={idx == 0}
+                                date={app.formattedDate}
+                                title={app.title}
+                            />
+                        );
+                    })}
                 <View
                     style={{
                         height: 60,

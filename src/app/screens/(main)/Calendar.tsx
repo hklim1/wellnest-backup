@@ -1,22 +1,33 @@
-import { Text, View, StyleSheet, FlatList } from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    FlatList,
+    ActivityIndicator,
+} from "react-native";
 import { Stack } from "expo-router";
 import { usePathname, useRouter } from "expo-router";
 import { Calendar } from "react-native-calendars";
 import { Feather } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import Members from "../../../components/Members";
-import members from "../../../lib/members";
-import family from "../../../../assets/People.png";
+import members, { MemberType } from "../../../lib/members";
+import {
+    getAppointments,
+    getDependentIcons,
+    getDependents,
+} from "../../utils/firebaseUtils";
 import { Badge, ListItem } from "@rneui/themed";
-import data from "../../../lib/appointments";
+import data, { AppointmentType } from "../../../lib/appointments";
 import AppointmentCard from "../../../components/AppointmentCard";
 import { MarkedDates } from "react-native-calendars/src/types";
 import HeaderRight from "../../../components/HeaderRight";
-
+import { getUserId } from "../../utils/globalStorage";
 const last = {
-    id: -1,
+    id: "fakeID",
     name: "All",
-    image: "all",
+    firstName: "All",
+    icon: "all",
     email: "maria@gmail.com",
     color: "#0FA6B0",
 };
@@ -24,17 +35,48 @@ const last = {
 const CalendarScreen = () => {
     const path = usePathname();
     const router = useRouter();
-    const [member, setMember] = useState(1);
+    const [member, setMember] = useState("fakeID");
     const [day, setDay] = useState("");
     const [markDates, setMarkDates] = useState<MarkedDates>({});
+    const [dependents, setDependents] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [appointments, setAppointments] = useState<AppointmentType[]>();
+
+    useEffect(() => {
+        setLoading(true);
+        const getInfo = async () => {
+            const id = await getUserId();
+            if (id) {
+                const deps = await getDependents(id);
+                console.log(deps);
+                const result = await getDependentIcons(Object.keys(deps));
+                console.log("============ result is", result);
+                if (result) {
+                    setDependents({ ...result, LAST: last });
+                }
+            } else {
+                console.warn("ID dont exist");
+            }
+        };
+        const getData = async () => {
+            const result = await getAppointments();
+            setAppointments(Object.values(result));
+            console.log(Object.values(result));
+        };
+
+        getData();
+        getInfo();
+        setLoading(false);
+    }, []);
 
     const getMarkedDates = () => {
         const markedDates: MarkedDates = {};
 
-        data.forEach((info, index) => {
+        appointments?.forEach((info, index) => {
             const dateKey = info.formattedDate;
             const memberId = info.memberId;
-            const color = members[memberId].color;
+            const colors = ["red", "green", "blue", "orange", "purple"];
+            const color = colors[Math.floor(Math.random() * colors.length)];
 
             // If the dateKey is not present in markedDates, initialize it with an empty dots object
             if (!markedDates[dateKey]) {
@@ -51,7 +93,7 @@ const CalendarScreen = () => {
             if (markedDates[dateKey]?.dots) {
                 // Add a dot to the dots array for the current member
                 markedDates[dateKey]!.dots!.push({
-                    key: `${dateKey}-${memberId}`,
+                    key: `${dateKey}-${memberId} ${Math.random() * 10}`,
                     color: color,
                     selectedDotColor: color,
                 });
@@ -66,6 +108,14 @@ const CalendarScreen = () => {
     }, []);
 
     console.log(markDates);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1 }}>
+                <ActivityIndicator size={32} />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -91,7 +141,7 @@ const CalendarScreen = () => {
 
             <View>
                 <Members
-                    members={[...members, last]}
+                    members={Object.values(dependents)}
                     setActiveMember={setMember}
                     activeMember={member}
                 />
@@ -108,27 +158,38 @@ const CalendarScreen = () => {
                 />
             </View>
 
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                    borderRadius: 20,
-                    backgroundColor: "white",
-                    overflow: "hidden",
-                }}
-                data={
-                    member == -1
-                        ? data
-                        : data.filter((item) => item.memberId == member - 1)
-                }
-                renderItem={({ item }) => (
-                    <ListItem bottomDivider containerStyle={{ padding: 0 }}>
-                        <ListItem.Content>
-                            <AppointmentCard data={item} />
-                        </ListItem.Content>
-                    </ListItem>
-                )}
-                keyExtractor={(item) => item._id.toString()}
-            />
+            {Object.keys(dependents).length >= 1 && (
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{
+                        borderRadius: 20,
+                        backgroundColor: "white",
+                        overflow: "hidden",
+                    }}
+                    data={
+                        member == "fakeID"
+                            ? appointments
+                            : appointments?.filter(
+                                  (item) => item.memberId == member
+                              )
+                    }
+                    renderItem={({ item }) => {
+                        const userIcon = dependents[item.memberId].icon;
+                        return (
+                            <ListItem
+                                bottomDivider
+                                containerStyle={{ padding: 0 }}>
+                                <ListItem.Content>
+                                    <AppointmentCard
+                                        data={item}
+                                        icon={userIcon}
+                                    />
+                                </ListItem.Content>
+                            </ListItem>
+                        );
+                    }}
+                />
+            )}
         </View>
     );
 };

@@ -1,22 +1,61 @@
-import React from "react";
-import { Text, View, SafeAreaView, Image, TextInput } from "react-native";
+import { useState, useEffect } from "react";
+import {
+    Text,
+    View,
+    SafeAreaView,
+    TextInput,
+    ActivityIndicator,
+} from "react-native";
 import { useLocalSearchParams, Stack } from "expo-router";
-import data from "../../../../lib/appointments";
+import { AppointmentType } from "../../../../lib/appointments";
 import TextInputIcon from "../../../../components/TextInputIcon";
 import ComponentDivider from "../../../../components/ComponentDivider";
-import members from "../../../../lib/members";
+import { UserIcon } from "../../../../components/UserIcons";
+import { getAppointmentById } from "../../../utils/firebaseUtils";
+import { Button } from "@rneui/themed";
 
 const AppointmentDetails = () => {
-    const { id } = useLocalSearchParams();
-    const value = parseInt(id as string);
-    const info = data[value - 1];
+    const { id, icon } = useLocalSearchParams();
+    const value = id as string;
+    const iconVal = icon as string;
+    const [appointment, setAppointment] = useState<AppointmentType>();
+    const [loading, setLoading] = useState(false);
+    const [editable, setEditable] = useState(false);
 
+    const toggleEdit = () => setEditable(!editable);
+
+    useEffect(() => {
+        const getData = async () => {
+            setLoading(true);
+            const appt = await getAppointmentById(value);
+            setAppointment(appt);
+            setLoading(false);
+        };
+
+        getData();
+    }, []);
+
+    if (loading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                <ActivityIndicator size={50} />
+                <Text>Loading Data...</Text>
+            </View>
+        );
+    }
     return (
-        <SafeAreaView style={{ padding: 16 }}>
+        <SafeAreaView style={{ padding: 16, flex: 1 }}>
             <Stack.Screen
                 options={{
                     headerRight: () => (
-                        <Text style={{ color: "grey", fontFamily: "Inter400" }}>
+                        <Text
+                            onPress={toggleEdit}
+                            style={{ color: "blue", fontFamily: "Inter400" }}>
                             Edit
                         </Text>
                     ),
@@ -40,16 +79,13 @@ const AppointmentDetails = () => {
                         flexDirection: "row",
                         paddingHorizontal: 8,
                         gap: 8,
+                        padding: 8,
                     }}>
-                    <Image
-                        source={members[info.memberId].image}
-                        style={{ width: 24 }}
-                        resizeMode='contain'
-                    />
+                    <UserIcon name={iconVal + "Circle"} width={24} />
 
                     <TextInput
-                        defaultValue={info.title}
-                        editable={false}
+                        defaultValue={appointment?.title}
+                        editable={editable}
                         style={{
                             fontSize: 18,
                             fontFamily: "Inter500",
@@ -59,35 +95,39 @@ const AppointmentDetails = () => {
                 </View>
                 <TextInputIcon
                     name='clock'
-                    defaultValue={info.date + " " + info.time}
-                    editable={false}
+                    defaultValue={
+                        appointment?.formattedDate + " at " + appointment?.time
+                    }
+                    editable={editable}
                     color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='bell'
-                    defaultValue={info.reminder}
-                    editable={false}
+                    defaultValue={appointment?.reminder}
+                    editable={editable}
                     color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='map-pin'
-                    defaultValue={info.location}
-                    editable={false}
+                    defaultValue={appointment?.location}
+                    editable={editable}
                     color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='phone'
-                    defaultValue={info.phone}
-                    editable={false}
+                    defaultValue={appointment?.phone}
+                    editable={editable}
                     color='#1A1D1D'
                 />
                 <TextInputIcon
                     name='menu'
-                    defaultValue={info.notes}
-                    editable={false}
+                    defaultValue={appointment?.notes}
+                    editable={editable}
                     color='#1A1D1D'
                 />
             </ComponentDivider>
+
+            {editable && <Button title={"Save Edits"} />}
         </SafeAreaView>
     );
 };
