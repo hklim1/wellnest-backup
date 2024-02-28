@@ -11,43 +11,68 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  Text,
 } from "react-native";
 import Symptoms from "../../../components/Symptoms";
 import { Feather } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { Button } from "@rneui/themed";
+import UserIconHeader from "../../../components/UserIconHeader";
+// import { addSymptoms } from "../../utils/firebaseUtils";
+import uuid from "react-native-uuid";
+import Toast from "react-native-root-toast";
 
 const AddSymptomsScreen = () => {
-  const [openCalender, setOpenCalender] = useState(false);
-  const [openTime, setOpenTime] = useState(false);
-  const [openSymptoms, setOpenSymptoms] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("");
-  const [notes, setNotes] = useState("");
-
-  console.log(date);
   const dayjs = require("dayjs");
   var utc = require("dayjs/plugin/utc");
   dayjs.extend(utc);
 
+  const currentTime = dayjs(new Date()).format("h:mm A");
+  const stringId = uuid.v4().toString();
+
+  const [openCalender, setOpenCalender] = useState(false);
+  const [openTime, setOpenTime] = useState(false);
+  const [openSymptoms, setOpenSymptoms] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(currentTime);
+  const [notes, setNotes] = useState("");
+  const [accountId, setAccountId] = useState("");
+  const [activeSymptoms, setActiveSymptoms] = useState(new Set<string>());
+  console.log(activeSymptoms);
+  const stringSymptoms = Array.from(activeSymptoms).join(", ");
+
   return (
     <SafeAreaView style={{ backgroundColor: "#eff4f4" }}>
       <ScrollView style={{ backgroundColor: "#eff4f4" }}>
-        <CancelSaveHeader titleName="Symptoms" />
+        <CancelSaveHeader
+          titleName="Symptoms"
+          onSave={() => {
+            addSymptoms(
+              stringId,
+              "31ahlsoHhJSVS6iPUeZS",
+              date,
+              time,
+              Array.from(activeSymptoms),
+              notes
+            );
+            Toast.show("New symptom has been added", {
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            });
+          }}
+        />
         <View style={styles.container}>
           <ComponentDivider>
             <TextInputIcon
               name="calendar"
               placeholder="Date"
-              value={dayjs(new Date(date)).format(
-                "ddd, MMM DD, YYYY [at] h:mm A"
-              )}
+              value={dayjs(new Date(date)).format("ddd, MMM DD, YYYY")}
               // new Date(date).toUTCString().slice(0, 16).format("ddd, MMM DD, YYYY")}
               onPressIn={() => setOpenCalender(true)}
             />
             {openCalender && (
               <Calendar
-                minDate={new Date().toDateString()}
+                // minDate={new Date().toDateString()}
                 markedDates={{
                   [date.toDateString()]: {
                     color: "#0FA6B0",
@@ -58,39 +83,46 @@ const AddSymptomsScreen = () => {
                   },
                 }}
                 onDayPress={(date) => {
-                  console.log(
-                    dayjs(new Date(date.dateString)).format("ddd, MMM DD, YYYY")
-                  );
-                  // console.log(new Date(date))
                   setDate(new Date(date.dateString));
                   setOpenCalender(false);
                 }}
               />
             )}
-            {/* <TextInputIcon
-            name="clock"
-            placeholder="Time"
-            value={time}
-            onPressIn={() => setOpenTime(true)}
-          />
-          {openTime && (
-            <DatePicker
-              mode="time"
-              minuteInterval={5}
-              onTimeChange={(selectedTime) => {
-                setTime(selectedTime);
-                setOpenTime(false);
-              }}
+            <TextInputIcon
+              name="clock"
+              placeholder="Time"
+              value={time}
+              onPressIn={() => setOpenTime(true)}
             />
-          )} */}
+            {openTime && (
+              <DatePicker
+                mode="time"
+                minuteInterval={5}
+                onTimeChange={(selectedTime) => {
+                  setTime(selectedTime);
+                  setOpenTime(false);
+                }}
+              />
+            )}
             <TextInputIcon
               name="frown"
               placeholder="Symptoms"
-              // value={}
+              value={stringSymptoms}
               onPressIn={() => setOpenSymptoms(!openSymptoms)}
               // onPressOut={() => setOpenSymptoms(false)}
             />
-            {openSymptoms && <Symptoms />}
+            {openSymptoms && (
+              <Symptoms
+                onAdd={(symptom) => {
+                  activeSymptoms.add(symptom);
+                  setActiveSymptoms(activeSymptoms);
+                }}
+                onRemove={(symptom) => {
+                  activeSymptoms.delete(symptom);
+                  setActiveSymptoms(activeSymptoms);
+                }}
+              />
+            )}
           </ComponentDivider>
           <View
             style={{
@@ -122,14 +154,19 @@ const AddSymptomsScreen = () => {
                 fontFamily: "Inter400",
                 flexWrap: "wrap",
               }}
-              value={notes}
+              // value={}
               textAlignVertical={"top"}
               placeholderTextColor="grey"
               placeholder="Add a note"
               multiline={true}
               onPressIn={() => setOpenSymptoms(false)}
-              onChangeText={() => setNotes(notes)}
+              onChangeText={(notes) => setNotes(notes)}
+              // onPressOut={() => console.log(notes)}
             />
+          </View>
+          <Text style={styles.bottomText}>This is for:</Text>
+          <View style={styles.icons}>
+            <UserIconHeader onPress={(account) => setAccountId(account)} />
           </View>
         </View>
       </ScrollView>
@@ -138,11 +175,27 @@ const AddSymptomsScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  bottomText: {
+    fontFamily: "Inter400",
+    fontSize: 16,
+    paddingTop: 16,
+    paddingBottom: 10,
+  },
   container: {
     // flex: 1,
     backgroundColor: "#eff4f4",
     height: "auto",
     paddingHorizontal: 16,
+  },
+  icons: {
+    // marginTop: 10,
+    // borderWidth: 2,
+    // borderColor: "blue",
+    height: "auto",
+    // display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    // alignContent: "flex-start",
   },
 });
 export default AddSymptomsScreen;

@@ -7,10 +7,18 @@ import {
     getDoc,
 } from "firebase/firestore";
 import { firebaseDB } from "../../../FirebaseConfig";
-import { getUserId } from "./globalStorage";
+import { getUserId, useUserId } from "./globalStorage";
 import { useEffect, useState } from "react";
 import { MemberType } from "../../lib/members";
 import { AppointmentType } from "../../lib/appointments";
+
+export interface Dependent {
+  icon: string;
+  firstName: string;
+  dateOfBirth: string;
+  gender: string;
+  notes: string;
+}
 
 export const createDependent = async (
     firstName: string,
@@ -129,6 +137,7 @@ export const useDependentIds = (userId: string) => {
     return depIds;
 };
 
+
 export const getDependents = async (userId: string) => {
     // returns permissions object for the code
     try {
@@ -161,6 +170,26 @@ export const useDependentIcons = (deps: string[] | null) => {
         gatherData();
     }, [deps]);
     return icons;
+};
+
+export const useDependents = (deps: string[] | null) => {
+  const [dependents, setDependents] = useState<{ [_: string]: Dependent }>({});
+  useEffect(() => {
+    const gatherData = async () => {
+      let newDependents = { ...dependents };
+      for (const dependentId in deps) {
+        const dependentRef = doc(firebaseDB, "Dependents", dependentId);
+        const resp = await getDoc(dependentRef);
+        newDependents = {
+          ...newDependents,
+          [dependentId]: { ...(resp.data() as Dependent) },
+        };
+      }
+      setDependents({ ...newDependents });
+    };
+    gatherData();
+  }, [deps]);
+  return dependents;
 };
 
 export const getDependentIcons = async (dependentsArray: string[] | null) => {

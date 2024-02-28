@@ -50,6 +50,7 @@ export default function AddDependentScreen() {
 
     const toggleCalendar = () => setOpenCalendar(!openCalendar);
 
+
     const createNewDependent = async () => {
         console.log(dFirstName, dIcon);
         await createDependent(dFirstName, dDateOfBirth, dGender, dNotes, dIcon);

@@ -2,7 +2,12 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SymptomsButton from "./SymptomsButton";
 import { useState } from "react";
 
-const Symptoms = () => {
+interface SymptomsProps {
+  onAdd: (_: string) => void;
+  onRemove: (_: string) => void;
+}
+
+const Symptoms = ({ onAdd, onRemove }: SymptomsProps) => {
   const [activeSymptoms, setActiveSymptoms] = useState(new Set());
   console.log(activeSymptoms);
   return (
@@ -19,11 +24,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Chest Pain");
+                onAdd("Chest Pain");
               } else {
-                activeSymptoms.delete("Chest Pain");
+                onRemove("Chest Pain");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -31,11 +35,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Chills/Shivering");
+                onAdd("Chills/Shivering");
               } else {
-                activeSymptoms.delete("Chills/Shivering");
+                onRemove("Chills/Shivering");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -45,11 +48,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Cough");
+                onAdd("Cough");
               } else {
-                activeSymptoms.delete("Cough");
+                onRemove("Cough");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -57,11 +59,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Discharge");
+                onAdd("Discharge");
               } else {
-                activeSymptoms.delete("Discharge");
+                onRemove("Discharge");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -69,11 +70,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Dizziness");
+                onAdd("Dizziness");
               } else {
-                activeSymptoms.delete("Dizziness");
+                onRemove("Dizziness");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -83,11 +83,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Fatigue");
+                onAdd("Fatigue");
               } else {
-                activeSymptoms.delete("Fatigue");
+                onRemove("Fatigue");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -95,11 +94,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Fever");
+                onAdd("Fever");
               } else {
-                activeSymptoms.delete("Fever");
+                onRemove("Fever");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -107,11 +105,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Headache");
+                onAdd("Headache");
               } else {
-                activeSymptoms.delete("Headache");
+                onRemove("Headache");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -121,11 +118,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Joint Pain");
+                onAdd("Joint Pain");
               } else {
-                activeSymptoms.delete("Joint Pain");
+                onRemove("Joint Pain");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -133,11 +129,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Muscle Fatigue");
+                onAdd("Muscle Fatigue");
               } else {
-                activeSymptoms.delete("Muscle Fatigue");
+                onRemove("Muscle Fatigue");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -147,11 +142,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Sneezing");
+                onAdd("Sneezing");
               } else {
-                activeSymptoms.delete("Sneezing");
+                onRemove("Sneezing");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -159,11 +153,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Sweats");
+                onAdd("Sweats");
               } else {
-                activeSymptoms.delete("Sweats");
+                onRemove("Sweats");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -171,11 +164,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Swelling");
+                onAdd("Swelling");
               } else {
-                activeSymptoms.delete("Swelling");
+                onRemove("Swelling");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -190,11 +182,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Dry Mouth");
+                onAdd("Dry Mouth");
               } else {
-                activeSymptoms.delete("Dry Mouth");
+                onRemove("Dry Mouth");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -202,11 +193,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Ear Ringing");
+                onAdd("Ear Ringing");
               } else {
-                activeSymptoms.delete("Ear Ringing");
+                onRemove("Ear Ringing");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -216,12 +206,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Hearing Loss");
+                onAdd("Hearing Loss");
               } else {
-                activeSymptoms.delete("Hearing Loss");
+                onRemove("Hearing Loss");
               }
-              setActiveSymptoms(activeSymptoms);
-              console.log(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -229,11 +217,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Runny Nose");
+                onAdd("Runny Nose");
               } else {
-                activeSymptoms.delete("Runny Nose");
+                onRemove("Runny Nose");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -243,11 +230,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Sore Throat");
+                onAdd("Sore Throat");
               } else {
-                activeSymptoms.delete("Sore Throat");
+                onRemove("Sore Throat");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -255,11 +241,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Stuffy Nose");
+                onAdd("Stuffy Nose");
               } else {
-                activeSymptoms.delete("Stuffy Nose");
+                onRemove("Stuffy Nose");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -269,11 +254,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Toothache");
+                onAdd("Toothache");
               } else {
-                activeSymptoms.delete("Toothache");
+                onRemove("Toothache");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -288,11 +272,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Bloating");
+                onAdd("Bloating");
               } else {
-                activeSymptoms.delete("Bloating");
+                onRemove("Bloating");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -300,11 +283,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Diarrhea");
+                onAdd("Diarrhea");
               } else {
-                activeSymptoms.delete("Diarrhea");
+                onRemove("Diarrhea");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -312,11 +294,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Constipation");
+                onAdd("Constipation");
               } else {
-                activeSymptoms.delete("Constipation");
+                onRemove("Constipation");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -326,11 +307,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Gassiness");
+                onAdd("Gassiness");
               } else {
-                activeSymptoms.delete("Gassiness");
+                onRemove("Gassiness");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -338,11 +318,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Heartburn");
+                onAdd("Heartburn");
               } else {
-                activeSymptoms.delete("Heartburn");
+                onRemove("Heartburn");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -350,11 +329,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Nausea");
+                onAdd("Nausea");
               } else {
-                activeSymptoms.delete("Nausea");
+                onRemove("Nausea");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -364,11 +342,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Stomachache");
+                onAdd("Stomachache");
               } else {
-                activeSymptoms.delete("Stomachache");
+                onRemove("Stomachache");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -376,11 +353,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Vomiting");
+                onAdd("Vomiting");
               } else {
-                activeSymptoms.delete("Vomiting");
+                onRemove("Vomiting");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -395,11 +371,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Blister");
+                onAdd("Blister");
               } else {
-                activeSymptoms.delete("Blister");
+                onRemove("Blister");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -407,11 +382,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Burn");
+                onAdd("Burn");
               } else {
-                activeSymptoms.delete("Burn");
+                onRemove("Burn");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -419,11 +393,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Cut/Scrape");
+                onAdd("Cut/Scrape");
               } else {
-                activeSymptoms.delete("Cut/Scrape");
+                onRemove("Cut/Scrape");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
@@ -435,11 +408,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Dryness");
+                onAdd("Dryness");
               } else {
-                activeSymptoms.delete("Dryness");
+                onRemove("Dryness");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -447,11 +419,10 @@ const Symptoms = () => {
             RightMargin={10}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Itching");
+                onAdd("Itching");
               } else {
-                activeSymptoms.delete("Itching");
+                onRemove("Itching");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
           <SymptomsButton
@@ -459,11 +430,10 @@ const Symptoms = () => {
             RightMargin={0}
             onToggle={(isActive) => {
               if (isActive) {
-                activeSymptoms.add("Rash");
+                onAdd("Rash");
               } else {
-                activeSymptoms.delete("Rash");
+                onRemove("Rash");
               }
-              setActiveSymptoms(activeSymptoms);
             }}
           />
         </View>
