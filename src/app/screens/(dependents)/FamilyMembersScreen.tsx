@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Link, Stack, useRouter } from "expo-router";
 import { Button, Icon, ListItem } from "@rneui/themed";
-import members from "../../../lib/members";
+import { MemberType } from "../../../lib/members";
 import MemberRow from "../../../components/MemberRow";
 import ComponentDivider from "../../../components/ComponentDivider";
+import { getDependentIcons, getDependents } from "../../utils/firebaseUtils";
+import { getUserId } from "../../utils/globalStorage";
+import { useFocusEffect } from "expo-router";
 
 export default function FamilyMembersScreen() {
-    const deps = members.slice(1);
+    const [dependents, setDependents] = useState({});
     const router = useRouter();
+    const depValues = Object.values(dependents) as MemberType[];
+    const [userId, setUserId] = useState("");
+
+    // to refetch data when screen gets focused again
+    useFocusEffect(
+        useCallback(() => {
+            const getData = async () => {
+                const user_id = await getUserId();
+                const deps = await getDependents(user_id as string);
+                const depArray = Object.keys(deps);
+                const depsInfo = await getDependentIcons(depArray);
+
+                if (depsInfo) {
+                    console.log(depsInfo);
+                    setDependents(depsInfo);
+                }
+
+                setUserId(user_id as string);
+            };
+
+            getData();
+        }, [])
+    );
     return (
         <View style={styles.background}>
             <Stack.Screen
@@ -37,38 +63,31 @@ export default function FamilyMembersScreen() {
                 }}
             />
             <View>
-                <Text style={styles.accountMembersTitle}>
-                    DEPENDENT MEMBERS
-                </Text>
+                <Text style={styles.accountMembersTitle}>ACCOUNT MEMBERS</Text>
 
                 <ComponentDivider>
-                    <MemberRow
-                        imageName='fox'
-                        name='Ruby'
-                        rightComponent={
-                            <Text style={[styles.text, { color: "#979B9B" }]}>
-                                Owner
-                            </Text>
+                    {depValues.map((dep, index) => {
+                        const match = userId == dep.id;
+
+                        const matched = (
+                            <Text style={{ color: "grey" }}>Owner</Text>
+                        );
+                        const unMatched = (
+                            <Text style={{ color: "red" }}>Remove</Text>
+                        );
+
+                        const value = match ? matched : unMatched;
+                        if (match) {
+                            return (
+                                <MemberRow
+                                    name={dep.firstName}
+                                    imageName={dep.icon}
+                                    rightComponent={value}
+                                />
+                            );
                         }
-                    />
-                    <MemberRow
-                        imageName='alligator'
-                        name='Heather'
-                        rightComponent={
-                            <Text style={[styles.text, styles.removeText]}>
-                                Remove
-                            </Text>
-                        }
-                    />
-                    <MemberRow
-                        imageName='gorilla'
-                        name='Ashley'
-                        rightComponent={
-                            <Text style={[styles.text, styles.removeText]}>
-                                Remove
-                            </Text>
-                        }
-                    />
+                    })}
+
                     <View
                         style={{
                             flexDirection: "row",
@@ -82,27 +101,33 @@ export default function FamilyMembersScreen() {
                 </ComponentDivider>
             </View>
             <View>
-                <Text style={styles.accountMembersTitle}>ACCOUNT MEMBERS</Text>
+                <Text style={styles.accountMembersTitle}>
+                    DEPENDENT MEMBERS
+                </Text>
                 <ComponentDivider>
-                    {deps.map((dep) => {
-                        return (
-                            <MemberRow
-                                key={dep.id}
-                                imageName={dep.image}
-                                name={dep.name}
-                                rightComponent={
-                                    <Link href={`/screens/edit/${dep.id}`}>
-                                        <Text
-                                            style={[
-                                                styles.text,
-                                                styles.editText,
-                                            ]}>
-                                            Edit
-                                        </Text>
-                                    </Link>
-                                }
-                            />
-                        );
+                    {depValues.map((dep) => {
+                        if (dep.id != userId) {
+                            return (
+                                <MemberRow
+                                    key={
+                                        dep.id + Math.floor(Math.random() * 10)
+                                    }
+                                    imageName={dep.icon}
+                                    name={dep.firstName}
+                                    rightComponent={
+                                        <Link href={`/screens/edit/${dep.id}`}>
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    styles.editText,
+                                                ]}>
+                                                Edit
+                                            </Text>
+                                        </Link>
+                                    }
+                                />
+                            );
+                        }
                     })}
                     <ListItem
                         onPress={() =>

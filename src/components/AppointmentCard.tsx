@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Image, Pressable } from "react-native";
-import members, { MemberType } from "../lib/members";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { AppointmentType } from "../lib/appointments";
 import { Feather } from "@expo/vector-icons";
 
@@ -8,20 +7,23 @@ import { useRouter } from "expo-router";
 import { UserIcon } from "./UserIcons";
 type Props = {
     data: AppointmentType;
+    icon: string;
 };
 
-const AppointmentCard = ({ data }: Props) => {
-    const image = members[data.memberId].image;
+const AppointmentCard = ({ data, icon }: Props) => {
     const router = useRouter();
     return (
         <Pressable
             onPress={() => {
                 console.log(data._id);
-                router.navigate("/screens/appointment/" + data._id);
+                router.navigate({
+                    params: { icon },
+                    pathname: "/screens/appointment/" + data._id,
+                });
             }}
             style={styles.container}>
             <View>
-                <UserIcon name={image + "Circle"} width={32} height={32} />
+                <UserIcon name={icon + "Circle"} width={32} height={32} />
             </View>
             <View style={styles.details}>
                 <View style={styles.titleWrapper}>
@@ -31,7 +33,7 @@ const AppointmentCard = ({ data }: Props) => {
 
                 <View>
                     <Text style={styles.detailsText}>
-                        {data.date} • {data.time}
+                        {data.formattedDate} • {data.time}
                     </Text>
                     <Text style={styles.detailsText}>{data.location}</Text>
                     <Text style={styles.detailsText}>{data.phone}</Text>
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     },
     detailsText: {
         fontSize: 16,
-        color: "#1A1D1D",
+        color: "#777",
         fontFamily: "Inter400",
     },
 });
