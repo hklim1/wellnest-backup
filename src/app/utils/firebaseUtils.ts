@@ -57,6 +57,57 @@ export const addFullPermissions = async (
     }
 };
 
+export const editDependent = async (
+    dependentId: string,
+    firstName: string,
+    dateOfBirth: string,
+    gender: string,
+    notes: string,
+    icon: string
+) => {
+    try {
+        await updateDoc(doc(firebaseDB, "Dependents", dependentId), {
+            firstName,
+            dateOfBirth,
+            gender,
+            notes,
+            icon,
+        });
+        console.log("Dependent edited successfully.");
+    } catch (e) {
+        console.error("Error editing dependent:");
+    }
+};
+
+export const removeUserFromPermissions = async (
+    userId: string,
+    dependentId: string
+) => {
+    try {
+        // Fetch the user document
+        const userDocRef = doc(firebaseDB, "Users", userId);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+            // Get the existing permissions object
+            const permissions = userDoc.data()?.permissions || {};
+
+            // Remove the dependent ID from the permissions object
+            delete permissions[dependentId];
+
+            // Update the user document with the modified permissions object
+            await updateDoc(userDocRef, { permissions });
+            console.log(
+                `User ${userId} removed from permissions for dependent ${dependentId}.`
+            );
+        } else {
+            console.warn(`User document with ID ${userId} does not exist.`);
+        }
+    } catch (e) {
+        console.error("Error removing user from permissions:");
+    }
+};
+
 export const useDependentIds = (userId: string) => {
     const [depIds, setDepIds] = useState<string[]>([]);
 
@@ -79,6 +130,7 @@ export const useDependentIds = (userId: string) => {
 };
 
 export const getDependents = async (userId: string) => {
+    // returns permissions object for the code
     try {
         const userRef = doc(firebaseDB, "Users", userId);
         const resp = await getDoc(userRef);

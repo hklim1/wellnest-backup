@@ -1,52 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { firebaseDB } from "../../../../../FirebaseConfig";
-
 import DatePicker from "react-native-modern-datepicker";
 import {
     StyleSheet,
     Text,
     View,
-    Image,
     Pressable,
     FlatList,
     ScrollView,
+    ActivityIndicator,
 } from "react-native";
 import { Button, Overlay } from "@rneui/themed";
-import { createDependent } from "../../../utils/firebaseUtils";
+import {
+    getDependentIcons,
+    useDependentIds,
+} from "../../../utils/firebaseUtils";
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import * as UserImages from "../../../../lib/userIcons";
-import { Feather } from "@expo/vector-icons";
 import { BottomSheet } from "@rneui/themed";
-import UserIcon from "../../../../components/UserIconA";
+import { UserIcon } from "../../../../components/UserIcons";
 import TextInputLabel from "../../../../components/TextInputLabel";
 import Toast from "react-native-root-toast";
 import { Dialog } from "@rneui/themed";
 import { Dropdown } from "react-native-element-dropdown";
-import members from "../../../../lib/members";
+import { MemberType } from "../../../../lib/members";
+import {
+    removeUserFromPermissions,
+    editDependent,
+} from "../../../utils/firebaseUtils";
+import { getUserId } from "../../../utils/globalStorage";
+const allIcons = [
+    "cow",
+    "gorilla",
+    "koala",
+    "alligator",
+    "pig",
+    "fox",
+    "bear",
+    "penguin",
+    "frog",
+    "lion",
+];
 
 export default function EditDependentScreen() {
-    const allIcons = [
-        UserImages.Dog,
-        UserImages.Bear,
-        UserImages.Fox,
-        UserImages.Frog,
-        UserImages.Hamster,
-        UserImages.Monkey,
-        UserImages.Panda,
-        UserImages.Swine,
-    ];
     const { userId } = useLocalSearchParams();
-    const userIdValue = parseInt(userId as string);
-    const currentMember = members[userIdValue - 1];
-    const [dFirstName, setFirstName] = useState(currentMember.name);
-    const [dDateOfBirth, setDateOfBirth] = useState(currentMember.color);
-    const [dGender, setGender] = useState(currentMember.email);
+    const userIdValue = userId as string;
+    // const currentMember = members[userIdValue - 1];
+    const {} = useDependentIds(userIdValue);
+    const [currentMember, setCurrentMember] = useState<MemberType>();
+    const [dFirstName, setFirstName] = useState("");
+    const [dDateOfBirth, setDateOfBirth] = useState("");
+    const [dGender, setGender] = useState("");
     const [dNotes, setNotes] = useState("");
-    const [dIcon, setIcon] = useState(currentMember.image);
+    const [dIcon, setIcon] = useState("");
     const [open, setOpen] = useState(false);
-    const [id, setId] = useState(1);
     const [openCalendar, setOpenCalendar] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [loading, setLoading] = useState(true);
     const genderOptions = [
         { label: "Male", value: "Male" },
         { label: "Female", value: "Female" },
@@ -55,16 +64,70 @@ export default function EditDependentScreen() {
 
     console.log(firebaseDB);
 
+    useEffect(() => {
+        setLoading(true);
+        const getData = async () => {
+            const member = await getDependentIcons([userIdValue]);
+            console.log(member);
+            console.log(
+                "========================================================="
+            );
+            if (member) {
+                setCurrentMember(Object.values(member)[0]);
+                setFirstName(member[userIdValue]?.firstName || "");
+                setDateOfBirth(member[userIdValue]?.dateOfBirth || "");
+                setGender(member[userIdValue]?.gender || "");
+                setNotes(member[userIdValue]?.notes || "");
+                setIcon(member[userIdValue]?.icon || "");
+            }
+            setLoading(false);
+        };
+
+        getData();
+    }, [userIdValue]); // Adding userIdValue to the dependency array
+
     const toggleCalendar = () => setOpenCalendar(!openCalendar);
+
     // implement edit dependent function
-    const createNewDependent = () => {
-        createDependent(dFirstName, dDateOfBirth, dGender, dNotes, dIcon);
-        Toast.show("New Dependent has been added", {
+    const editDependentUser = async () => {
+        await editDependent(
+            userIdValue, // Assuming currentMember has an "id" property
+            dFirstName,
+            dDateOfBirth,
+            dGender,
+            dNotes,
+            dIcon
+        );
+        Toast.show("Dependent has been edited", {
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
         });
         router.back();
     };
+
+    const deleteDependent = async () => {
+        const owner_id = await getUserId();
+        await removeUserFromPermissions(owner_id as string, userIdValue);
+        Toast.show("Dependent has been deleted", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+        });
+        router.back();
+    };
+
+    if (loading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                <ActivityIndicator size={32} />
+                <Text style={styles.overlayText}>Loading Data</Text>
+            </View>
+        );
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -102,15 +165,7 @@ export default function EditDependentScreen() {
                 <Pressable
                     style={styles.imageWrapper}
                     onPress={() => setOpen(true)}>
-                    <Image
-                        // using the ids as the index
-                        source={allIcons[id].img}
-                        style={{ width: 50, height: 50 }}
-                        resizeMode='contain'
-                    />
-                    <View style={styles.badge}>
-                        <Feather name='plus' size={16} color='white' />
-                    </View>
+                    <UserIcon name={dIcon + "Plus"} width={60} height={60} />
                 </Pressable>
             </View>
 
@@ -175,7 +230,7 @@ export default function EditDependentScreen() {
                     onChangeText={(newText) => setNotes(newText)}
                 />
 
-                <Button onPress={createNewDependent}>Save</Button>
+                <Button onPress={editDependentUser}>Save Edits</Button>
             </View>
 
             {/* OVERLAY */}
@@ -189,13 +244,7 @@ export default function EditDependentScreen() {
                 </Text>
                 <View style={styles.buttonRow}>
                     <Button
-                        onPress={() => {
-                            Toast.show("Dependent has been deleted!", {
-                                duration: Toast.durations.LONG,
-                                position: Toast.positions.BOTTOM,
-                            });
-                            router.back();
-                        }}
+                        onPress={deleteDependent}
                         title='Delete'
                         buttonStyle={styles.overlayButton}
                         titleStyle={{ color: "#E35454" }}
@@ -217,25 +266,29 @@ export default function EditDependentScreen() {
                     <View style={{ alignItems: "center" }}>
                         <View style={styles.topBar} />
                     </View>
-
                     <Text style={styles.bottomSheetTitle}>
                         Select A Profile Icon
                     </Text>
-
                     <View style={{ alignItems: "center", marginTop: 16 }}>
                         <FlatList
                             nestedScrollEnabled
-                            numColumns={4}
-                            columnWrapperStyle={{ gap: 8 }}
-                            contentContainerStyle={{ gap: 8 }}
+                            numColumns={5}
+                            columnWrapperStyle={{ gap: 16 }}
+                            contentContainerStyle={{ gap: 16 }}
                             data={allIcons}
                             renderItem={({ item }) => {
                                 return (
-                                    <UserIcon
-                                        activeId={id}
-                                        setActiveId={setId}
-                                        icon={item}
-                                    />
+                                    <Pressable onPress={() => setIcon(item)}>
+                                        <UserIcon
+                                            name={
+                                                dIcon == item
+                                                    ? item + "Selected"
+                                                    : item + "Circle"
+                                            }
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </Pressable>
                                 );
                             }}
                         />

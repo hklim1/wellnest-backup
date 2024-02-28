@@ -9,6 +9,7 @@ export type MemberType = {
     gender: "male" | "female";
     dateOfBirth: any;
     firstName: string;
+    notes: string;
 };
 
 const members = [
