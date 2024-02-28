@@ -52,13 +52,13 @@ export default function AddDependentScreen() {
 
   const createNewDependent = () => {
     console.log(dFirstName, dIcon);
-    // const value = createDependent(
-    //   dFirstName,
-    //   dDateOfBirth,
-    //   dGender,
-    //   dNotes,
-    //   dIcon
-    // );
+    const value = createDependent(
+      dFirstName,
+      dDateOfBirth,
+      dGender,
+      dNotes,
+      dIcon
+    );
     Toast.show("New Dependent has been added", {
       duration: Toast.durations.LONG,
       position: Toast.positions.BOTTOM,

@@ -1,32 +1,39 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import {
-  getDependents,
-  getDependentIcons,
-  useDependentIcons,
+  Dependent,
   useDependentIds,
+  useDependents,
 } from "../app/utils/firebaseUtils";
 import { useUserId } from "../app/utils/globalStorage";
 import { UserIcon } from "./UserIcons";
 import { useEffect, useState } from "react";
 
-const UserIconHeader = (): React.ReactElement => {
+interface UserIconHeaderProps {
+  onPress?: (dependentId: string) => void;
+}
+
+const UserIconHeader = ({
+  onPress,
+}: UserIconHeaderProps): React.ReactElement => {
   const { userId, setUserId } = useUserId();
   const [selectedIcon, setSelectedIcon] = useState("");
 
-  const dependentsArray = useDependentIds(userId!);
-  const nameAndIcon = useDependentIcons(dependentsArray);
+  const dependentsIdsArray = useDependentIds(userId!);
+  const dependents = useDependents(dependentsIdsArray);
 
-  //   useEffect(())
-
-  console.log("nameAndIcon", nameAndIcon);
   return (
     // <View style={styles.iconContainer}>
     <View style={{ flexDirection: "row" }}>
-      {Object.keys(nameAndIcon).map(function (key) {
-        const iconName = nameAndIcon[key];
-        console.log(iconName);
+      {Object.keys(dependents).map(function (dependentId) {
+        const iconName = dependents[dependentId].icon;
+        const name = dependents[dependentId].firstName;
         return (
-          <Pressable onPress={() => setSelectedIcon(iconName)}>
+          <Pressable
+            onPress={() => {
+              setSelectedIcon(iconName);
+              onPress?.(dependentId);
+            }}
+          >
             <View style={styles.iconContainer}>
               <UserIcon
                 name={
@@ -37,7 +44,16 @@ const UserIconHeader = (): React.ReactElement => {
                 height={60}
                 width={60}
               />
-              <Text style={styles.names}>{key}</Text>
+              <Text
+                style={{
+                  fontFamily: "Inter400",
+                  marginTop: 8,
+                  color: selectedIcon === iconName ? "black" : "#979B9B",
+                  fontSize: 14,
+                }}
+              >
+                {name}
+              </Text>
             </View>
           </Pressable>
         );
@@ -51,11 +67,11 @@ const styles = StyleSheet.create({
     marginRight: 14,
     alignItems: "center",
   },
-  names: {
-    fontFamily: "Inter400",
-    fontSize: 14,
-    color: "#979B9B",
-    marginTop: 8,
-  },
+  //   names: {
+  //     fontFamily: "Inter400",
+  //     fontSize: 14,
+  //     color:
+  //     marginTop: 8,
+  //   },
 });
 export default UserIconHeader;
