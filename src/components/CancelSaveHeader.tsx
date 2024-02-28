@@ -5,10 +5,10 @@ import { Pressable, Text, StyleSheet, View } from "react-native";
 
 interface TitleProps {
   titleName: string;
-  saveActions?: void;
+  onSave?: () => void;
 }
 
-export const CancelSaveHeader = ({ titleName, saveActions }: TitleProps) => {
+export const CancelSaveHeader = ({ titleName, onSave }: TitleProps) => {
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -30,7 +30,12 @@ export const CancelSaveHeader = ({ titleName, saveActions }: TitleProps) => {
             </Pressable>
           ),
           headerRight: () => (
-            <Pressable onPress={() => router.back()}>
+            <Pressable
+              onPress={() => {
+                router.back();
+                onSave?.();
+              }}
+            >
               <Text style={styles.textButtons}>Save</Text>
             </Pressable>
           ),

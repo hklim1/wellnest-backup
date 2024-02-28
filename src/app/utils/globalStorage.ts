@@ -17,8 +17,8 @@ export const useUserId = () => {
   return { userId: returnedItem, setUserId: setItem };
 };
 
-export const useDependentId = (dependantId: string) => {
-  const { getItem, setItem } = useAsyncStorage(`@dep-${dependantId}`);
+export const useDependentId = (dependentId: string) => {
+  const { getItem, setItem } = useAsyncStorage(`@dep-${dependentId}`);
   const [returnedItem, setReturnedItem] = useState<string | null>(null);
   useEffect(() => {
     const wait = async () => {

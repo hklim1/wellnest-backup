@@ -7,8 +7,16 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { firebaseDB } from "../../../FirebaseConfig";
-import { getUserId } from "./globalStorage";
+import { getUserId, useUserId } from "./globalStorage";
 import { useEffect, useState } from "react";
+
+export interface Dependent {
+  icon: string;
+  firstName: string;
+  dateOfBirth: string;
+  gender: string;
+  notes: string;
+}
 
 export const createDependent = async (
   firstName: string,
@@ -75,37 +83,24 @@ export const useDependentIds = (userId: string) => {
   return depIds;
 };
 
-export const getDependents = async (userId: string) => {
-  try {
-    const userRef = doc(firebaseDB, "Users", userId);
-    const resp = await getDoc(userRef);
-    if (resp.exists()) {
-      const data = resp.data().permissions;
-      console.log("Document data:", Object.keys(data));
-      return data;
-    } else {
-      console.log("No such document!");
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const useDependentIcons = (deps: string[] | null) => {
-  const [icons, setIcons] = useState<{ [_: string]: string }>({});
+export const useDependents = (deps: string[] | null) => {
+  const [dependents, setDependents] = useState<{ [_: string]: Dependent }>({});
   useEffect(() => {
     const gatherData = async () => {
+      let newDependents = { ...dependents };
       for (const dependentId in deps) {
         const dependentRef = doc(firebaseDB, "Dependents", dependentId);
         const resp = await getDoc(dependentRef);
-        const name: string = resp.data()?.firstName;
-        const icon: string = resp.data()!.icon;
-        setIcons({ ...icons, [name]: icon });
+        newDependents = {
+          ...newDependents,
+          [dependentId]: { ...(resp.data() as Dependent) },
+        };
       }
+      setDependents({ ...newDependents });
     };
     gatherData();
   }, [deps]);
-  return icons;
+  return dependents;
 };
 
 export const getDependentIcons = async (dependentsArray: string[] | null) => {

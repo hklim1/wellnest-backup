@@ -47,7 +47,7 @@ const History = () => {
         <View style={styles.icons}>
           <UserIconHeader />
         </View>
-        <View style={{ marginVertical: 10 }}>
+        <View style={{ marginVertical: 16 }}>
           <>
             <ListItem
               bottomDivider
@@ -63,13 +63,14 @@ const History = () => {
                 <ListItem.Title style={styles.listTitles}>
                   Timeline
                 </ListItem.Title>
-                <Text>Headaches at 3pm</Text>
+                <Text>Headaches at 3pm!!</Text>
                 <Text>Medication taken at 2pm</Text>
                 <Text>Doctor's appointment at 4pm</Text>
                 {/* <Text>sfafafa</Text> */}
               </ListItem.Content>
             </ListItem>
             <ListItem
+              topDivider
               containerStyle={{
                 borderBottomEndRadius: 10,
                 borderBottomStartRadius: 10,
@@ -110,10 +111,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icons: {
-    marginTop: 10,
-    borderWidth: 2,
-    borderColor: "blue",
-    height: 100,
+    // marginTop: 10,
+    // borderWidth: 2,
+    // borderColor: "blue",
+    height: "auto",
     // display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
