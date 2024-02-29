@@ -12,12 +12,27 @@ import { useEffect, useState } from "react";
 import { MemberType } from "../../lib/members";
 import { AppointmentType } from "../../lib/appointments";
 
+export interface Symptom {
+  activeSymptoms?: string[];
+  date: {
+    nanoseconds: number;
+    seconds: number;
+  };
+  notes?: string;
+  time: string;
+}
+
 export interface Dependent {
   icon: string;
   firstName: string;
   dateOfBirth: string;
   gender: string;
   notes: string;
+  symptoms?: {
+    [symptomId: string]: Symptom;
+  };
+  appointments?: Object;
+  medications?: Object;
 }
 
 export const createDependent = async (
@@ -318,3 +333,81 @@ export const getAppointmentById = async (appointmentId: string) => {
         return null;
     }
 };
+
+// ====================== SYMPTOMS ===========================
+export const addSymptoms = async (
+  uuid: string,
+  accountId: string,
+  date: Date,
+  time: string,
+  symptoms: string[],
+  notes: string
+) => {
+  console.log(accountId);
+  const userId = await getUserId();
+  if (accountId === userId) {
+    try {
+      const userRef = doc(firebaseDB, "Users", accountId);
+      const resp = await setDoc(
+        userRef,
+        {
+          symptoms: {
+            [uuid]: {
+              ["date"]: date,
+              ["time"]: time,
+              ["symptoms"]: symptoms,
+              ["notes"]: notes,
+            },
+          },
+        },
+        { merge: true }
+      );
+      return resp;
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    console.log(accountId);
+    try {
+      const userRef = doc(firebaseDB, "Dependents", accountId);
+      const resp = await setDoc(
+        userRef,
+        {
+          symptoms: {
+            [uuid]: {
+              ["date"]: date,
+              ["time"]: time,
+              ["activeSymptoms"]: symptoms,
+              ["notes"]: notes,
+            },
+          },
+        },
+        { merge: true }
+      );
+      return resp;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+
+// ============================ GET HISTORY ==================================
+// export const useSymptoms = (dependentId: string | null) => {
+//   const [dependents, setDependents] = useState<{ [_: string]: Dependent }>({});
+//   useEffect(() => {
+//     const gatherData = async () => {
+//       let newDependents = { ...dependents };
+//       for (const dependentId in deps) {
+//         const dependentRef = doc(firebaseDB, "Dependents", dependentId);
+//         const resp = await getDoc(dependentRef);
+//         newDependents = {
+//           ...newDependents,
+//           [dependentId]: { ...(resp.data() as Dependent) },
+//         };
+//       }
+//       setDependents({ ...newDependents });
+//     };
+//     gatherData();
+//   }, [deps]);
+//   return dependents;
+// };

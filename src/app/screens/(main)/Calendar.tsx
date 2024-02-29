@@ -69,8 +69,8 @@ const CalendarScreen = () => {
         setLoading(false);
     }, []);
 
-    const getMarkedDates = () => {
-        const markedDates: MarkedDates = {};
+  const getMarkedDates = () => {
+    const markedDates: MarkedDates = {};
 
         appointments?.forEach((info, index) => {
             const dateKey = info.formattedDate;
@@ -78,16 +78,16 @@ const CalendarScreen = () => {
             const colors = ["red", "green", "blue", "orange", "purple"];
             const color = colors[Math.floor(Math.random() * colors.length)];
 
-            // If the dateKey is not present in markedDates, initialize it with an empty dots object
-            if (!markedDates[dateKey]) {
-                markedDates[dateKey] = {
-                    dots: [],
-                    color: color,
-                    selectedColor: color,
-                    marked: true,
-                    dotColor: color,
-                };
-            }
+      // If the dateKey is not present in markedDates, initialize it with an empty dots object
+      if (!markedDates[dateKey]) {
+        markedDates[dateKey] = {
+          dots: [],
+          color: color,
+          selectedColor: color,
+          marked: true,
+          dotColor: color,
+        };
+      }
 
             // Add a dot to the dots array for the current member
             if (markedDates[dateKey]?.dots) {
@@ -99,15 +99,17 @@ const CalendarScreen = () => {
                 });
             }
         });
+      }
+    });
 
-        setMarkDates(markedDates);
-    };
+    setMarkDates(markedDates);
+  };
 
-    useEffect(() => {
-        getMarkedDates();
-    }, []);
+  useEffect(() => {
+    getMarkedDates();
+  }, []);
 
-    console.log(markDates);
+  // console.log(markDates);
 
     if (loading) {
         return (
@@ -146,17 +148,28 @@ const CalendarScreen = () => {
                     activeMember={member}
                 />
             </View>
+          ),
+        }}
+      />
 
-            <View style={styles.memberWrapper}>
-                <Calendar
-                    markingType='multi-dot'
-                    onDayPress={(date) => {
-                        setDay(date.dateString);
-                        console.log(date.dateString, "DATETTETTE");
-                    }}
-                    markedDates={markDates}
-                />
-            </View>
+      <View>
+        <Members
+          members={[...members, last]}
+          setActiveMember={setMember}
+          activeMember={member}
+        />
+      </View>
+
+      <View style={styles.memberWrapper}>
+        <Calendar
+          markingType="multi-dot"
+          onDayPress={(date) => {
+            setDay(date.dateString);
+            // console.log(date.dateString, "DATETTETTE");
+          }}
+          markedDates={markDates}
+        />
+      </View>
 
             {Object.keys(dependents).length >= 1 && (
                 <FlatList
@@ -195,23 +208,23 @@ const CalendarScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 16,
-        backgroundColor: "#F5F7F7",
-    },
-    memberWrapper: {
-        marginVertical: 16,
-    },
-    iconWrapper: {
-        flexDirection: "row",
-        gap: 16,
-        paddingRight: 20,
-    },
-    badge: {
-        position: "absolute",
-        right: 0,
-        top: 0,
-    },
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    backgroundColor: "#F5F7F7",
+  },
+  memberWrapper: {
+    marginVertical: 16,
+  },
+  iconWrapper: {
+    flexDirection: "row",
+    gap: 16,
+    paddingRight: 20,
+  },
+  badge: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+  },
 });
 export default CalendarScreen;

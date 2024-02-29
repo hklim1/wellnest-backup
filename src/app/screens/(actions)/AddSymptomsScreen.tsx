@@ -18,7 +18,7 @@ import { Feather } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { Button } from "@rneui/themed";
 import UserIconHeader from "../../../components/UserIconHeader";
-// import { addSymptoms } from "../../utils/firebaseUtils";
+import { addSymptoms } from "../../utils/firebaseUtils";
 import uuid from "react-native-uuid";
 import Toast from "react-native-root-toast";
 
@@ -49,7 +49,7 @@ const AddSymptomsScreen = () => {
           onSave={() => {
             addSymptoms(
               stringId,
-              "31ahlsoHhJSVS6iPUeZS",
+              accountId,
               date,
               time,
               Array.from(activeSymptoms),

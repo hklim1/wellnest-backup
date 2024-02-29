@@ -32,6 +32,7 @@ const UserIconHeader = ({
             onPress={() => {
               setSelectedIcon(iconName);
               onPress?.(dependentId);
+              console.log(dependents[dependentId].symptoms);
             }}
           >
             <View style={styles.iconContainer}>
