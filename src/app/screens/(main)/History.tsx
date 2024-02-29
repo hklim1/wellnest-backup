@@ -13,8 +13,18 @@ import { ListItemComponent } from "../../../components/ListItemComponent";
 import HeaderRight from "../../../components/HeaderRight";
 import UserIconHeader from "../../../components/UserIconHeader";
 import { UserIcon } from "../../../components/UserIcons";
+import { useState } from "react";
+import { useDependentIds, useDependents } from "../../utils/firebaseUtils";
+import { useUserId } from "../../utils/globalStorage";
+import Timeline from "../../../components/Timeline";
 
 const History = () => {
+  const { userId, setUserId } = useUserId();
+  const [accountId, setAccountId] = useState("");
+
+  const dependentsIdsArray = useDependentIds(userId!);
+  const dependents = useDependents(dependentsIdsArray);
+
   return (
     <SafeAreaView style={styles.background}>
       <ScrollView>
@@ -45,9 +55,9 @@ const History = () => {
           }}
         />
         <View style={styles.icons}>
-          <UserIconHeader />
+          <UserIconHeader onPress={(account) => setAccountId(account)} />
         </View>
-        <View style={{ marginVertical: 16 }}>
+        <View style={{ marginTop: 16 }}>
           <>
             <ListItem
               bottomDivider
@@ -55,7 +65,8 @@ const History = () => {
                 borderTopEndRadius: 10,
                 borderTopStartRadius: 10,
                 paddingHorizontal: 16,
-                paddingVertical: 16,
+                paddingTop: 16,
+                paddingBottom: 6,
                 height: "auto",
               }}
             >
@@ -63,10 +74,7 @@ const History = () => {
                 <ListItem.Title style={styles.listTitles}>
                   Timeline
                 </ListItem.Title>
-                <Text>Headaches at 3pm!!</Text>
-                <Text>Medication taken at 2pm</Text>
-                <Text>Doctor's appointment at 4pm</Text>
-                {/* <Text>sfafafa</Text> */}
+                <Timeline accountId={accountId} />
               </ListItem.Content>
             </ListItem>
             <ListItem
