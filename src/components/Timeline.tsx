@@ -46,10 +46,10 @@ const Timeline = ({ accountId }: TimelineProps) => {
 
   let counter = 0;
 
-  console.log(
-    "how many depenedents?",
-    Object.entries(dependentSymptoms).length
-  );
+  // console.log(
+  //   "how many depenedents?",
+  //   Object.entries(dependentSymptoms).length
+  // );
 
   for (const [symptomId, symptomInfo] of Object.entries(dependentSymptoms)) {
     // console.log(symptomId, symptomInfo);
