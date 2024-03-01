@@ -73,10 +73,15 @@ const Home = () => {
           {/* </View> */}
         </Pressable>
 
-        <View style={styles.popup}>
+        <Pressable
+          style={styles.popup}
+          onPress={() =>
+            router.navigate("/screens/medication/SelectUsageScreen")
+          }
+        >
           <Text style={styles.popupText}>Medication</Text>
           <MaterialCommunityIcons name="pill" size={20} color="#0FA6B0" />
-        </View>
+        </Pressable>
 
         <Pressable
           style={styles.popup}
